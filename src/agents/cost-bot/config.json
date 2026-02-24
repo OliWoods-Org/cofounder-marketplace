@@ -1,0 +1,30 @@
+{
+  "id": "pm-cost-optimizer",
+  "name": "CostBot",
+  "version": "1.0.0",
+  "role": "Cost Optimizer",
+  "model": "claude-haiku-3-5-20241022",
+  "schedule": {
+    "cron": "0 9 * * 1",
+    "timezone": "UTC"
+  },
+  "triggers": ["schedule", "manual", "threshold_exceeded"],
+  "mcp_servers": ["filesystem"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 365
+  },
+  "thresholds": {
+    "daily_spend_alert": 50,
+    "weekly_spend_alert": 250,
+    "token_waste_percent": 20
+  },
+  "track_costs": [
+    "anthropic_api",
+    "openai_api",
+    "vercel",
+    "railway",
+    "supabase",
+    "stripe_fees"
+  ]
+}

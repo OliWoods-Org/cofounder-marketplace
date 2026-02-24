@@ -1,0 +1,29 @@
+{
+  "id": "pm-deployer",
+  "name": "ShipBot",
+  "version": "1.0.0",
+  "role": "Deployment Manager",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["manual", "tag_pushed", "pr_merged_to_main"],
+  "mcp_servers": ["github", "playwright"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 90
+  },
+  "platforms": {
+    "vercel": { "enabled": true },
+    "railway": { "enabled": true },
+    "fly": { "enabled": true }
+  },
+  "pre_deploy_checks": [
+    "lint",
+    "typecheck",
+    "test",
+    "build",
+    "security_scan"
+  ],
+  "rollback": {
+    "auto_enabled": true,
+    "health_check_timeout": 60
+  }
+}

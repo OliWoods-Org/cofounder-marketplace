@@ -1,0 +1,21 @@
+{
+  "id": "pm-standup",
+  "name": "StandupBot",
+  "version": "1.0.0",
+  "role": "Daily Reporter",
+  "model": "claude-sonnet-4-20250514",
+  "schedule": {
+    "cron": "0 8 * * 1-5",
+    "timezone": "America/Los_Angeles"
+  },
+  "triggers": ["manual", "schedule"],
+  "mcp_servers": ["github", "linear", "slack"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 30
+  },
+  "outputs": {
+    "slack_channel": "#standups",
+    "format": "markdown"
+  }
+}

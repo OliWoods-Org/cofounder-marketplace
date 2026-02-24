@@ -1,0 +1,22 @@
+{
+  "id": "pm-taskmaster",
+  "name": "TaskMaster",
+  "version": "1.0.0",
+  "role": "Task Orchestrator",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["task_created", "agent_idle", "manual", "schedule"],
+  "schedule": {
+    "cron": "*/15 * * * *",
+    "timezone": "UTC"
+  },
+  "mcp_servers": ["linear", "github"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 60
+  },
+  "assignment_rules": {
+    "balance_workload": true,
+    "respect_specializations": true,
+    "max_wip_per_agent": 3
+  }
+}

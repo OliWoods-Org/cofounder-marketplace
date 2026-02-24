@@ -1,0 +1,29 @@
+{
+  "id": "pm-security",
+  "name": "SecBot",
+  "version": "1.0.0",
+  "role": "Security Scanner",
+  "model": "claude-sonnet-4-20250514",
+  "schedule": {
+    "cron": "0 2 * * *",
+    "timezone": "UTC"
+  },
+  "triggers": ["schedule", "manual", "pr_opened"],
+  "mcp_servers": ["github", "filesystem"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 365
+  },
+  "scan_types": [
+    "dependency_audit",
+    "secret_detection",
+    "code_patterns",
+    "configuration_review"
+  ],
+  "severity_levels": {
+    "critical": "immediate",
+    "high": "24h",
+    "medium": "7d",
+    "low": "backlog"
+  }
+}

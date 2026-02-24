@@ -1,0 +1,22 @@
+{
+  "id": "pm-client-reporter",
+  "name": "ReportBot",
+  "version": "1.0.0",
+  "role": "Client Reporter",
+  "model": "claude-sonnet-4-20250514",
+  "schedule": {
+    "cron": "0 17 * * 5",
+    "timezone": "America/Los_Angeles"
+  },
+  "triggers": ["schedule", "manual"],
+  "mcp_servers": ["github", "linear", "resend"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 365
+  },
+  "output_formats": ["markdown", "pdf", "email"],
+  "branding": {
+    "logo": true,
+    "colors": "client_defined"
+  }
+}

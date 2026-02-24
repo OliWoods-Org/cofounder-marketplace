@@ -1,0 +1,26 @@
+{
+  "id": "pm-reviewer",
+  "name": "ReviewBot",
+  "version": "1.0.0",
+  "role": "PR Reviewer",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["pr_opened", "pr_updated", "manual"],
+  "mcp_servers": ["github", "playwright"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 90
+  },
+  "review_checks": [
+    "security_patterns",
+    "type_safety",
+    "accessibility",
+    "brand_compliance",
+    "test_coverage",
+    "documentation"
+  ],
+  "auto_approve": {
+    "enabled": false,
+    "max_lines": 50,
+    "allowed_paths": ["docs/*", "*.md"]
+  }
+}

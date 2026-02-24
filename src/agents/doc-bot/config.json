@@ -1,0 +1,24 @@
+{
+  "id": "pm-dockeeper",
+  "name": "DocBot",
+  "version": "1.0.0",
+  "role": "Documentation Keeper",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["commit", "pr_merged", "manual"],
+  "mcp_servers": ["github", "filesystem"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 90
+  },
+  "watched_files": [
+    "CLAUDE.md",
+    "AGENTS.md",
+    "README.md",
+    "docs/**/*.md",
+    "src/**/*.ts"
+  ],
+  "auto_update": {
+    "enabled": true,
+    "create_pr": true
+  }
+}

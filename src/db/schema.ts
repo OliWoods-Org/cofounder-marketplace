@@ -197,6 +197,67 @@ export const reviewsRelations = relations(reviews, ({ one }) => ({
   }),
 }));
 
+// Builder stats table - aggregated metrics for leaderboard
+export const builderStats = pgTable(
+  "builder_stats",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    builderId: uuid("builder_id")
+      .notNull()
+      .references(() => builders.id, { onDelete: "cascade" })
+      .unique(),
+    totalRevenue: decimal("total_revenue", { precision: 12, scale: 2 }).default("0").notNull(),
+    totalDownloads: integer("total_downloads").default(0).notNull(),
+    totalAgents: integer("total_agents").default(0).notNull(),
+    avgRating: decimal("avg_rating", { precision: 3, scale: 2 }).default("0"),
+    totalReviews: integer("total_reviews").default(0).notNull(),
+    rank: integer("rank"),
+    badges: jsonb("badges").$type<string[]>().default([]).notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (table) => [
+    index("builder_stats_builder_id_idx").on(table.builderId),
+    index("builder_stats_rank_idx").on(table.rank),
+    index("builder_stats_total_revenue_idx").on(table.totalRevenue),
+    index("builder_stats_total_downloads_idx").on(table.totalDownloads),
+  ]
+);
+
+// Featured agents table - for dynamic featured placement
+export const featuredAgents = pgTable(
+  "featured_agents",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    agentId: uuid("agent_id")
+      .notNull()
+      .references(() => agents.id, { onDelete: "cascade" }),
+    placementType: varchar("placement_type", { length: 50 }).notNull(), // 'hero', 'trending', 'staff_pick', 'new'
+    featuredAt: timestamp("featured_at").defaultNow().notNull(),
+    featuredUntil: timestamp("featured_until"),
+    priority: integer("priority").default(0).notNull(),
+    createdBy: varchar("created_by", { length: 255 }), // admin user id
+  },
+  (table) => [
+    index("featured_agents_agent_id_idx").on(table.agentId),
+    index("featured_agents_placement_type_idx").on(table.placementType),
+    index("featured_agents_priority_idx").on(table.priority),
+  ]
+);
+
+export const builderStatsRelations = relations(builderStats, ({ one }) => ({
+  builder: one(builders, {
+    fields: [builderStats.builderId],
+    references: [builders.id],
+  }),
+}));
+
+export const featuredAgentsRelations = relations(featuredAgents, ({ one }) => ({
+  agent: one(agents, {
+    fields: [featuredAgents.agentId],
+    references: [agents.id],
+  }),
+}));
+
 // Type exports for use in application code
 export type Builder = typeof builders.$inferSelect;
 export type NewBuilder = typeof builders.$inferInsert;
@@ -215,3 +276,9 @@ export type NewUsage = typeof usage.$inferInsert;
 
 export type Review = typeof reviews.$inferSelect;
 export type NewReview = typeof reviews.$inferInsert;
+
+export type BuilderStats = typeof builderStats.$inferSelect;
+export type NewBuilderStats = typeof builderStats.$inferInsert;
+
+export type FeaturedAgent = typeof featuredAgents.$inferSelect;
+export type NewFeaturedAgent = typeof featuredAgents.$inferInsert;

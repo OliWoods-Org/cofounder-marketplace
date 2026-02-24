@@ -5,7 +5,7 @@
 <h1 align="center">CoFounder Marketplace</h1>
 
 <p align="center">
-  <strong>:robot: The App Store for AI Agents :robot:</strong>
+  <strong>The App Store for AI Agents</strong>
 </p>
 
 <p align="center">
@@ -14,11 +14,11 @@
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#quick-start">Quick Start</a> •
-  <a href="#agent-catalog">Agents</a> •
-  <a href="#team-bundles">Teams</a> •
-  <a href="#api-documentation">API</a> •
+  <a href="#features">Features</a> |
+  <a href="#quick-start">Quick Start</a> |
+  <a href="#agent-catalog">Agents</a> |
+  <a href="#team-bundles">Teams</a> |
+  <a href="#api-documentation">API</a> |
   <a href="#for-builders">For Builders</a>
 </p>
 
@@ -45,112 +45,50 @@
 
 ---
 
-## :sparkles: Features
+## Overview
 
-<table>
-  <tr>
-    <td align="center" width="33%">
-      <h3>:package: 8 Pre-Built Agents</h3>
-      <p>Production-ready AI agents for standups, code review, security, deployment, and more</p>
-    </td>
-    <td align="center" width="33%">
-      <h3>:busts_in_silhouette: 3 Team Bundles</h3>
-      <p>Coordinated agent teams for DevOps, Project Management, and Consulting</p>
-    </td>
-    <td align="center" width="33%">
-      <h3>:rocket: One-Click Deploy</h3>
-      <p>Deploy agents to production in seconds with automatic configuration</p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <h3>:lock: Secure Auth</h3>
-      <p>Enterprise-grade authentication powered by Clerk</p>
-    </td>
-    <td align="center">
-      <h3>:credit_card: Stripe Connect</h3>
-      <p>Seamless payments with automatic builder payouts</p>
-    </td>
-    <td align="center">
-      <h3>:zap: Real-Time Search</h3>
-      <p>Instant agent discovery with Meilisearch</p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <h3>:bar_chart: Usage Analytics</h3>
-      <p>Track tokens, tasks, and costs per agent</p>
-    </td>
-    <td align="center">
-      <h3>:star: Reviews & Ratings</h3>
-      <p>Community-driven agent quality scores</p>
-    </td>
-    <td align="center">
-      <h3>:money_with_wings: 70% Revenue Share</h3>
-      <p>Builders keep 70% of every sale</p>
-    </td>
-  </tr>
-</table>
+CoFounder Marketplace is a platform for buying, selling, and deploying production-ready AI agents. Agents are pre-configured Claude-based workers that plug directly into the CoFounder orchestration platform. Buyers get one-click deployment. Builders get 70% revenue share on every sale with automatic payouts via Stripe Connect.
+
+The marketplace connects to the CoFounder orchestrator backend, which manages agent lifecycle, task assignment, and real-time monitoring. When a user deploys an agent from the marketplace, the system provisions it into their CoFounder workspace with the correct configuration, MCP tool access, and scheduling rules.
 
 ---
 
-## :camera: Screenshots
+## Features
 
-<p align="center">
-  <em>Screenshots coming soon</em>
-</p>
-
-<table>
-  <tr>
-    <td align="center">
-      <img src="./public/screenshots/marketplace.png" alt="Marketplace Home" width="400" />
-      <br /><strong>Marketplace Home</strong>
-    </td>
-    <td align="center">
-      <img src="./public/screenshots/agent-detail.png" alt="Agent Detail" width="400" />
-      <br /><strong>Agent Detail</strong>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="./public/screenshots/deploy.png" alt="One-Click Deploy" width="400" />
-      <br /><strong>One-Click Deploy</strong>
-    </td>
-    <td align="center">
-      <img src="./public/screenshots/dashboard.png" alt="Builder Dashboard" width="400" />
-      <br /><strong>Builder Dashboard</strong>
-    </td>
-  </tr>
-</table>
+| Feature | Description |
+|---------|-------------|
+| **8 Pre-Built Agents** | Production-ready agents for standups, code review, security, deployment, documentation, task orchestration, client reporting, and cost optimization. |
+| **3 Team Bundles** | Coordinated agent teams for DevOps, Project Management, and Consulting. Agents within a bundle share context and hand off tasks automatically. |
+| **One-Click Deploy** | Deploy agents to a running CoFounder instance in seconds. The deployment pipeline handles configuration, tool provisioning, and schedule registration. |
+| **Clerk Authentication** | Enterprise-grade authentication with SSO support, session management, and role-based access for builders vs. buyers. |
+| **Stripe Connect Payments** | Marketplace transactions with automatic 70/30 revenue split. Builders connect their Stripe accounts for direct payouts. |
+| **Meilisearch Integration** | Sub-millisecond agent discovery with typo tolerance, faceted filtering by category/price/rating, and instant results as you type. |
+| **Usage Analytics** | Track token consumption, task completion rates, and compute time per deployed agent. Usage data feeds into billing for metered pricing models. |
+| **Reviews and Ratings** | Community-driven quality scores. Buyers rate agents after deployment, and aggregate scores surface the best-performing agents. |
 
 ---
 
-## :rocket: Quick Start
+## Quick Start
 
 ### Prerequisites
 
-- **Node.js 20+** - [Download](https://nodejs.org/)
-- **PostgreSQL** - Local instance or cloud (Neon, Supabase, etc.)
-- **Stripe Account** - With Connect enabled for payouts
-- **Clerk Account** - For authentication
+- **Node.js 20+** — [Download](https://nodejs.org/)
+- **PostgreSQL** — Local instance or cloud provider (Neon, Supabase, etc.)
+- **Stripe Account** — With Connect enabled for marketplace payouts
+- **Clerk Account** — For authentication
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/cofounder-marketplace.git
+git clone https://github.com/OliWoods-Org/cofounder-marketplace.git
 cd cofounder-marketplace
-
-# Install dependencies
 npm install
-
-# Set up environment variables
 cp .env.example .env.local
 ```
 
 ### Environment Configuration
 
-Create a `.env.local` file with the following:
+Create a `.env.local` file:
 
 ```bash
 # Database
@@ -164,7 +102,7 @@ STRIPE_WEBHOOK_SECRET=whsec_xxxxxxxxxxxxxxxxxxxx
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxxxxxxxxxxxxxxxxx
 CLERK_SECRET_KEY=sk_test_xxxxxxxxxxxxxxxxxxxx
 
-# CoFounder Platform (optional)
+# CoFounder Platform (optional - for agent deployment)
 COFOUNDER_API_URL=http://localhost:3456
 
 # Webhooks
@@ -174,14 +112,9 @@ USAGE_WEBHOOK_SECRET=your_webhook_secret
 ### Database Setup
 
 ```bash
-# Push schema to database
-npm run db:push
-
-# Seed with sample data (optional)
-npm run db:seed
-
-# Open database studio
-npm run db:studio
+npm run db:push       # Push schema to database
+npm run db:seed       # Seed with sample agents and teams (optional)
+npm run db:studio     # Open Drizzle Studio for visual database browsing
 ```
 
 ### Run Development Server
@@ -194,28 +127,28 @@ Open [http://localhost:3001](http://localhost:3001) to view the marketplace.
 
 ---
 
-## :robot: Agent Catalog
+## Agent Catalog
 
-| Agent | Role | Description | Price | Rating |
-|-------|------|-------------|-------|--------|
-| :clipboard: **StandupBot** | Daily Reporter | Auto-generates daily standups from git activity. Summarizes completed work, in-progress tasks, and blockers. | $29/mo | :star: 4.9 |
-| :mag: **ReviewBot** | PR Reviewer | Automated code review with security patterns, brand compliance, type safety, and accessibility checks. | $49/mo | :star: 4.8 |
-| :dart: **TaskMaster** | Task Orchestrator | Intelligent task assignment based on agent skills, availability, and workload balancing. | $39/mo | :star: 4.7 |
-| :page_facing_up: **DocBot** | Documentation Keeper | Keeps CLAUDE.md, AGENTS.md, README, and API docs in sync with actual code changes. | $29/mo | :star: 4.6 |
-| :shield: **SecBot** | Security Scanner | Daily security scans for vulnerabilities, exposed secrets, and unsafe code patterns. | $59/mo | :star: 4.9 |
-| :ship: **ShipBot** | Deployment Manager | Handles deploy workflows for Vercel, Railway, and Fly.io with health checks and rollback. | $49/mo | :star: 4.8 |
-| :memo: **ReportBot** | Client Reporter | Generates beautiful weekly client reports from git activity and task completion. | $39/mo | :star: 4.7 |
-| :chart_with_downwards_trend: **CostBot** | Cost Optimizer | Monitors token usage, API costs, and infrastructure spend with optimization suggestions. | $29/mo | :star: 4.5 |
+| Agent | Role | Description | Price |
+|-------|------|-------------|-------|
+| **StandupBot** | Daily Reporter | Generates daily standups from git activity. Summarizes completed work, in-progress tasks, and blockers. Pushes reports to Slack or email. | $29/mo |
+| **ReviewBot** | PR Reviewer | Automated code review covering security patterns, brand compliance, type safety, accessibility, and performance. Posts inline comments on GitHub PRs. | $49/mo |
+| **TaskMaster** | Task Orchestrator | Intelligent task assignment based on agent skills, availability, and workload balancing. Decomposes complex tasks into sub-tasks and routes them. | $39/mo |
+| **DocBot** | Documentation Keeper | Keeps CLAUDE.md, AGENTS.md, README, and API docs in sync with code changes. Detects drift between docs and implementation. | $29/mo |
+| **SecBot** | Security Scanner | Daily vulnerability scans, exposed secret detection, dependency audits, and unsafe code pattern identification. Generates remediation PRs. | $59/mo |
+| **ShipBot** | Deployment Manager | Handles deploy workflows for Vercel, Railway, and Fly.io. Runs health checks post-deploy and triggers automatic rollback on failure. | $49/mo |
+| **ReportBot** | Client Reporter | Generates formatted weekly client reports from git activity, task completion, and time tracking data. Outputs HTML, PDF, or Markdown. | $39/mo |
+| **CostBot** | Cost Optimizer | Monitors token usage, API costs, and infrastructure spend across all agents. Suggests model downgrades and caching strategies to reduce costs. | $29/mo |
 
 ---
 
-## :busts_in_silhouette: Team Bundles
+## Team Bundles
 
-Teams are pre-configured collections of agents that work together seamlessly.
+Teams are pre-configured collections of agents that share context and coordinate handoffs.
 
-### :wrench: DevOps Department — $149/mo
+### DevOps Department -- $149/mo
 
-Complete DevOps automation: code review, security scanning, deployment, and documentation.
+Complete DevOps automation from code review through deployment and documentation.
 
 | Agent | Role |
 |-------|------|
@@ -224,7 +157,9 @@ Complete DevOps automation: code review, security scanning, deployment, and docu
 | ShipBot | Deployment Manager |
 | DocBot | Documentation Keeper |
 
-### :briefcase: Project Management Suite — $99/mo
+**Workflow:** ReviewBot reviews PRs and flags security concerns to SecBot. Once both approve, ShipBot handles deployment. DocBot updates documentation after each deploy.
+
+### Project Management Suite -- $99/mo
 
 Full PM automation for solo founders and small teams.
 
@@ -235,9 +170,11 @@ Full PM automation for solo founders and small teams.
 | ReportBot | Client Reporter |
 | CostBot | Cost Optimizer |
 
-### :office: Consulting Agency Bundle — $199/mo
+**Workflow:** StandupBot captures daily progress. TaskMaster distributes work. ReportBot compiles weekly summaries. CostBot monitors spend and suggests optimizations.
 
-Built for agencies managing multiple clients with reporting and optimization.
+### Consulting Agency Bundle -- $199/mo
+
+Built for agencies managing multiple client projects simultaneously.
 
 | Agent | Role |
 |-------|------|
@@ -247,9 +184,40 @@ Built for agencies managing multiple clients with reporting and optimization.
 | CostBot | Cost Optimizer |
 | DocBot | Documentation Keeper |
 
+**Workflow:** Multi-project tracking with per-client reporting, cross-project task distribution, cost allocation per client, and automated documentation updates.
+
 ---
 
-## :book: API Documentation
+## Architecture
+
+### Deployment Pipeline
+
+When a user clicks "Deploy" on an agent:
+
+1. **Purchase** -- Stripe processes the payment and creates a subscription via Connect.
+2. **Provisioning** -- The marketplace API calls the CoFounder orchestrator at `COFOUNDER_API_URL` with the agent configuration.
+3. **Configuration** -- The orchestrator registers the agent with its MCP tools, schedule, and team assignment.
+4. **Activation** -- The agent enters the idle pool and begins accepting tasks according to its configuration.
+5. **Monitoring** -- Usage telemetry (tokens, tasks, compute time) streams back to the marketplace via the usage webhook for billing and analytics.
+
+### Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Framework** | Next.js 15 (App Router) | Server-side rendering, API routes, middleware |
+| **Language** | TypeScript 5.7 | Type safety across frontend and backend |
+| **UI** | React 19 + Tailwind CSS 3.4 + shadcn/ui | Component library with dark theme |
+| **API** | tRPC 11 | End-to-end type-safe API layer between client and server |
+| **Database** | PostgreSQL + Drizzle ORM | Schema management, migrations, type-safe queries |
+| **Auth** | Clerk | Session management, SSO, role-based access |
+| **Payments** | Stripe Connect | Marketplace transactions, builder payouts, subscriptions |
+| **Search** | Meilisearch | Full-text search with typo tolerance and faceted filtering |
+| **Testing** | Vitest | Unit and integration tests |
+| **Deployment** | Vercel | Production hosting with edge functions |
+
+---
+
+## API Documentation
 
 ### Base URL
 
@@ -265,11 +233,11 @@ All API requests require a valid Clerk session or API key.
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `GET` | `/api/agents` | List all agents (paginated) |
-| `GET` | `/api/agents/:id` | Get agent by ID |
+| `GET` | `/api/agents` | List all agents (paginated, filterable) |
+| `GET` | `/api/agents/:id` | Get agent details including reviews and usage stats |
 | `POST` | `/api/agents` | Create new agent (builders only) |
-| `PUT` | `/api/agents/:id` | Update agent |
-| `DELETE` | `/api/agents/:id` | Delete agent |
+| `PUT` | `/api/agents/:id` | Update agent configuration or listing |
+| `DELETE` | `/api/agents/:id` | Remove agent from marketplace |
 
 #### List Agents
 
@@ -305,8 +273,8 @@ curl -X GET "https://your-domain.com/api/agents?page=1&limit=10&isPublic=true"
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `GET` | `/api/teams` | List all teams (paginated) |
-| `GET` | `/api/teams/:id` | Get team by ID |
-| `POST` | `/api/teams` | Create new team |
+| `GET` | `/api/teams/:id` | Get team with member agents and workflow |
+| `POST` | `/api/teams` | Create new team with agent composition |
 | `PUT` | `/api/teams/:id` | Update team |
 | `DELETE` | `/api/teams/:id` | Delete team |
 
@@ -338,7 +306,7 @@ curl -X POST "https://your-domain.com/api/teams" \
 
 | Endpoint | Description |
 |----------|-------------|
-| `POST /api/webhooks/stripe` | Stripe payment events |
+| `POST /api/webhooks/stripe` | Stripe payment events (checkout, subscription, invoice) |
 | `POST /api/webhooks/usage` | Usage tracking from CoFounder platform |
 
 #### Usage Webhook Payload
@@ -353,15 +321,15 @@ curl -X POST "https://your-domain.com/api/teams" \
     "requests": 42,
     "computeTimeMs": 8500
   },
-  "timestamp": "2025-01-15T10:30:00Z"
+  "timestamp": "2026-02-15T10:30:00Z"
 }
 ```
 
 ---
 
-## :hammer_and_wrench: For Builders
+## For Builders
 
-### :moneybag: Revenue Share
+### Revenue Share
 
 | Revenue Type | Builder Share | Platform Share |
 |--------------|---------------|----------------|
@@ -369,109 +337,88 @@ curl -X POST "https://your-domain.com/api/teams" \
 | Team Bundle Sales | **70%** | 30% |
 | Usage-Based Revenue | **70%** | 30% |
 
+Payouts are processed automatically via Stripe Connect. Builders receive funds directly in their connected Stripe account.
+
 ### Getting Started as a Builder
 
 1. **Sign up** at [cofounder.ai/builders](https://cofounder.ai/builders)
 2. **Connect Stripe** to receive automatic payouts
-3. **Create your agent** with our visual editor or API
-4. **Submit for review** — we verify quality and security
+3. **Create your agent** with the visual editor or API
+4. **Submit for review** -- the team verifies quality and security
 5. **Go live** and start earning on every sale
 
 ### Agent Configuration
 
 ```typescript
 interface AgentConfig {
-  focus: string;           // Agent specialization
-  mcp: string[];           // MCP tools: github, linear, slack, etc.
+  focus: string;           // Agent specialization description
+  mcp: string[];           // MCP tools: github, linear, slack, filesystem, etc.
   schedule?: string;       // Cron schedule for automated runs
-  triggers?: string[];     // Event triggers: pr_opened, commit, etc.
+  triggers?: string[];     // Event triggers: pr_opened, commit, deploy, etc.
 }
 ```
 
 ### Best Practices
 
-- :white_check_mark: Write clear, specific descriptions
-- :white_check_mark: Include usage examples in documentation
-- :white_check_mark: Set competitive pricing based on value delivered
-- :white_check_mark: Respond to reviews and support requests
-- :white_check_mark: Keep agents updated with latest capabilities
+- Write clear, specific descriptions that explain what the agent does and when to use it
+- Include usage examples and sample outputs in documentation
+- Set competitive pricing based on the value delivered, not the complexity of the implementation
+- Respond to reviews and support requests within 24 hours
+- Keep agents updated when underlying APIs or capabilities change
 
 ---
 
-## :world_map: Roadmap
-
-### Q1 2025
-- [x] Core marketplace MVP
-- [x] Stripe Connect integration
-- [x] 8 launch agents
-- [x] 3 team bundles
-
-### Q2 2025
-- [ ] :test_tube: Agent testing sandbox
-- [ ] :globe_with_meridians: Custom domains for builders
-- [ ] :chart_with_upwards_trend: Advanced analytics dashboard
-- [ ] :speech_balloon: In-app messaging
-
-### Q3 2025
-- [ ] :iphone: Mobile app (iOS & Android)
-- [ ] :electric_plug: Third-party integrations (Zapier, Make)
-- [ ] :trophy: Builder certification program
-- [ ] :chains: Agent chaining API
-
-### Q4 2025
-- [ ] :building_construction: Enterprise tier with SSO
-- [ ] :earth_africa: Marketplace localization (10+ languages)
-- [ ] :robot: AI-powered agent recommendations
-- [ ] :handshake: Partner program launch
-
----
-
-## :gear: Tech Stack
-
-| Category | Technology |
-|----------|------------|
-| **Framework** | Next.js 15 (App Router) |
-| **Language** | TypeScript 5.7 |
-| **Runtime** | React 19 |
-| **Styling** | Tailwind CSS 3.4 |
-| **UI Components** | shadcn/ui |
-| **API Layer** | tRPC 11 |
-| **Database** | PostgreSQL + Drizzle ORM |
-| **Authentication** | Clerk |
-| **Payments** | Stripe Connect |
-| **Search** | Meilisearch |
-| **Testing** | Vitest |
-| **Deployment** | Vercel |
-
----
-
-## :building_construction: Project Structure
+## Project Structure
 
 ```
 src/
-├── app/                    # Next.js App Router pages
-│   ├── api/               # API routes
-│   │   ├── agents/        # Agent CRUD endpoints
-│   │   ├── teams/         # Team CRUD endpoints
-│   │   ├── deploy/        # Deployment triggers
-│   │   └── webhooks/      # Stripe & usage webhooks
-│   └── page.tsx           # Marketplace homepage
-├── components/            # React components
-│   └── ui/               # Reusable UI components (shadcn)
-├── data/                  # Static data & templates
-│   └── featured-agents.ts # Pre-built agent catalog
-├── db/                    # Database layer
-│   ├── schema.ts         # Drizzle schema definitions
-│   └── index.ts          # Database connection
-├── lib/                   # Utility functions
-│   └── cofounder-api.ts  # CoFounder platform client
-└── types/                 # TypeScript type definitions
-    └── index.ts          # Shared types
+├── app/                       # Next.js App Router
+│   ├── api/                   # API routes (tRPC + REST)
+│   │   ├── agents/            # Agent CRUD endpoints
+│   │   ├── teams/             # Team CRUD endpoints
+│   │   ├── deploy/            # Deployment triggers
+│   │   └── webhooks/          # Stripe and usage webhooks
+│   ├── agents/                # Agent browsing pages
+│   ├── builder/               # Builder dashboard pages
+│   ├── dashboard/             # Buyer dashboard pages
+│   ├── marketplace/           # Marketplace browsing and search
+│   ├── workspace/             # Workspace management
+│   ├── sign-in/               # Clerk sign-in flow
+│   ├── sign-up/               # Clerk sign-up flow
+│   ├── layout.tsx             # Root layout with providers
+│   └── page.tsx               # Marketplace homepage
+│
+├── components/                # React components
+│   ├── auth/                  # Authentication UI (sign-in, guards)
+│   ├── builder/               # Builder-specific components (listings, analytics)
+│   ├── dashboard/             # Buyer dashboard components (deployments, usage)
+│   ├── marketplace/           # Marketplace components (cards, search, filters)
+│   └── ui/                    # Reusable primitives (shadcn/ui)
+│
+├── data/
+│   └── featured-agents.ts     # Pre-built agent catalog definitions
+│
+├── db/
+│   ├── schema.ts              # Drizzle schema (agents, teams, deployments, usage)
+│   ├── schema/                # Schema modules
+│   ├── migrations/            # Database migrations
+│   └── index.ts               # Database connection pool
+│
+├── lib/
+│   ├── cofounder-api.ts       # CoFounder orchestrator API client
+│   ├── deploy-agent.ts        # Agent deployment logic
+│   ├── search/                # Meilisearch client and indexing
+│   ├── stripe/                # Stripe Connect helpers
+│   ├── stripe.ts              # Stripe core client
+│   └── trpc/                  # tRPC router and context
+│
+└── types/
+    └── index.ts               # Shared TypeScript type definitions
 ```
 
 ---
 
-## :clipboard: Available Scripts
+## Available Scripts
 
 | Script | Description |
 |--------|-------------|
@@ -491,76 +438,65 @@ src/
 
 ---
 
-## :handshake: Contributing
+## Roadmap
 
-We welcome contributions from the community!
+### Q1 2026
+- [x] Core marketplace MVP
+- [x] Stripe Connect integration
+- [x] 8 launch agents
+- [x] 3 team bundles
 
-### How to Contribute
+### Q2 2026
+- [ ] Agent testing sandbox
+- [ ] Custom domains for builders
+- [ ] Advanced analytics dashboard
+- [ ] In-app messaging between builders and buyers
+
+### Q3 2026
+- [ ] Mobile app (iOS and Android)
+- [ ] Third-party integrations (Zapier, Make)
+- [ ] Builder certification program
+- [ ] Agent chaining API for multi-step workflows
+
+### Q4 2026
+- [ ] Enterprise tier with SSO and audit logs
+- [ ] Marketplace localization (10+ languages)
+- [ ] AI-powered agent recommendations based on workspace analysis
+- [ ] Partner program launch
+
+---
+
+## Contributing
 
 1. **Fork** the repository
-2. **Create** a feature branch
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
+2. **Create** a feature branch: `git checkout -b feature/your-feature`
 3. **Make** your changes with clear commit messages
-4. **Test** your changes
+4. **Test** your changes:
    ```bash
    npm run test
    npm run typecheck
    npm run lint
    ```
-5. **Push** to your branch
-   ```bash
-   git push origin feature/amazing-feature
-   ```
+5. **Push** to your branch: `git push origin feature/your-feature`
 6. **Open** a Pull Request
 
 ### Development Guidelines
 
-- Follow the existing code style
-- Write tests for new features
-- Update documentation as needed
+- Follow the existing code style and naming conventions
+- Write tests for new features and bug fixes
+- Update documentation when changing public APIs or behavior
 - Keep commits atomic and well-described
 
-### Code of Conduct
-
-Be respectful, inclusive, and constructive. We're building something great together.
-
 ---
 
-## :scroll: License
+## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+MIT License -- see [LICENSE](LICENSE) for details.
 
-```
-MIT License
-
-Copyright (c) 2025 CoFounder
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-```
+Copyright (c) 2026 CoFounder
 
 ---
 
 <p align="center">
-  Built with :heart: by <a href="https://cofounder.ai">CoFounder</a> — The AI-powered development platform
-</p>
-
-<p align="center">
-  <a href="https://cofounder.ai">Website</a> •
-  <a href="https://docs.cofounder.ai">Docs</a> •
-  <a href="https://twitter.com/cofounderai">Twitter</a> •
-  <a href="https://discord.gg/cofounder">Discord</a>
+  Built by the CoFounder team at <a href="https://github.com/OliWoods-Org">OliWoods</a>
 </p>

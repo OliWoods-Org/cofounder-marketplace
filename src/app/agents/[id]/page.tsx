@@ -4,34 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import { FEATURED_AGENTS, AgentTemplate } from '@/data/featured-agents'
-
-// Mock reviews data
-const MOCK_REVIEWS = [
-  {
-    id: '1',
-    author: 'Sarah Chen',
-    rating: 5,
-    date: '2024-01-15',
-    content: 'This agent has saved our team countless hours. The automation is seamless and the results are consistently high quality.',
-    helpful: 24
-  },
-  {
-    id: '2',
-    author: 'Marcus Johnson',
-    rating: 4,
-    date: '2024-01-10',
-    content: 'Great agent overall. Setup was straightforward and it integrates well with our existing workflow. Would love to see more customization options.',
-    helpful: 18
-  },
-  {
-    id: '3',
-    author: 'Emily Rodriguez',
-    rating: 5,
-    date: '2024-01-05',
-    content: 'Exactly what we needed for our development pipeline. The MCP integrations work flawlessly.',
-    helpful: 12
-  }
-]
+import { ReviewsList } from '@/components/ReviewsList'
 
 // Mock changelog data
 const MOCK_CHANGELOG = [
@@ -214,7 +187,6 @@ export default function AgentDetailPage() {
                     <span className="flex items-center gap-1">
                       <StarRating rating={Math.round(agent.rating)} size="sm" />
                       <span className="ml-1">{agent.rating.toFixed(1)}</span>
-                      <span className="text-gray-500">({MOCK_REVIEWS.length} reviews)</span>
                     </span>
                     <span>{agent.downloads.toLocaleString()} deploys</span>
                   </div>
@@ -323,67 +295,7 @@ export default function AgentDetailPage() {
               )}
 
               {activeTab === 'reviews' && (
-                <div className="space-y-4">
-                  {/* Reviews Summary */}
-                  <div className="glass-panel p-6">
-                    <div className="flex flex-col md:flex-row md:items-center gap-6">
-                      <div className="text-center md:text-left">
-                        <p className="text-5xl font-bold text-white">{agent.rating.toFixed(1)}</p>
-                        <StarRating rating={Math.round(agent.rating)} size="lg" />
-                        <p className="text-sm text-gray-400 mt-1">{MOCK_REVIEWS.length} reviews</p>
-                      </div>
-                      <div className="flex-1">
-                        {[5, 4, 3, 2, 1].map((stars) => {
-                          const count = MOCK_REVIEWS.filter(r => r.rating === stars).length
-                          const percentage = (count / MOCK_REVIEWS.length) * 100
-                          return (
-                            <div key={stars} className="flex items-center gap-2 mb-1">
-                              <span className="text-sm text-gray-400 w-3">{stars}</span>
-                              <svg className="w-4 h-4 text-accent-gold" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                              <div className="flex-1 h-2 bg-glass-200 rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-accent-gold rounded-full transition-all"
-                                  style={{ width: `${percentage}%` }}
-                                />
-                              </div>
-                              <span className="text-sm text-gray-400 w-8">{count}</span>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Individual Reviews */}
-                  {MOCK_REVIEWS.map((review) => (
-                    <div key={review.id} className="glass-panel p-6">
-                      <div className="flex items-start justify-between mb-3">
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-white">{review.author}</span>
-                            <StarRating rating={review.rating} size="sm" />
-                          </div>
-                          <p className="text-sm text-gray-500">{new Date(review.date).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                          })}</p>
-                        </div>
-                      </div>
-                      <p className="text-gray-300">{review.content}</p>
-                      <div className="mt-4 flex items-center gap-4">
-                        <button className="flex items-center gap-1 text-sm text-gray-400 hover:text-white transition-colors">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                          </svg>
-                          Helpful ({review.helpful})
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <ReviewsList agentId={agent.id} />
               )}
 
               {activeTab === 'documentation' && (

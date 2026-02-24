@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import type { ApiResponse } from '@/types';
-import {
-  getStripe,
-  calculateRevenueSplit,
-  createTransferToConnectedAccount,
-} from '@/lib/stripe';
+import { getStripe, calculateRevenueSplit } from '@/lib/stripe';
 
 interface WebhookResult {
   received: boolean;
@@ -99,6 +95,43 @@ export async function POST(
         break;
       }
 
+      // Stripe Connect events
+      case 'account.updated': {
+        const account = event.data.object as Stripe.Account;
+        await handleAccountUpdated(account);
+        break;
+      }
+
+      case 'account.application.authorized': {
+        const application = event.data.object as Stripe.Application;
+        await handleApplicationAuthorized(application);
+        break;
+      }
+
+      case 'account.application.deauthorized': {
+        const application = event.data.object as Stripe.Application;
+        await handleApplicationDeauthorized(application);
+        break;
+      }
+
+      case 'transfer.created': {
+        const transfer = event.data.object as Stripe.Transfer;
+        await handleTransferCreated(transfer);
+        break;
+      }
+
+      case 'transfer.updated': {
+        const transfer = event.data.object as Stripe.Transfer;
+        await handleTransferUpdated(transfer);
+        break;
+      }
+
+      case 'transfer.reversed': {
+        const transfer = event.data.object as Stripe.Transfer;
+        await handleTransferReversed(transfer);
+        break;
+      }
+
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
@@ -129,6 +162,13 @@ async function handleCheckoutSessionCompleted(
   const subscriptionId = session.subscription as string;
   const metadata = session.metadata || {};
 
+  // Check if this is a marketplace purchase (has connectedAccountId)
+  if (metadata.connectedAccountId) {
+    await processMarketplacePurchaseTransfer(session);
+    return;
+  }
+
+  // Handle regular subscription/checkout
   // TODO: Implement your business logic here
   // - Update user's subscription status in database
   // - Grant access to purchased team/agent
@@ -251,4 +291,205 @@ async function handlePaymentIntentFailed(
   // - Notify user of failed payment
 
   console.log('Error:', lastPaymentError?.message);
+}
+
+// Stripe Connect event handlers
+
+async function handleAccountUpdated(account: Stripe.Account): Promise<void> {
+  console.log('Connect account updated:', account.id);
+
+  const userId = account.metadata?.userId;
+  const chargesEnabled = account.charges_enabled;
+  const payoutsEnabled = account.payouts_enabled;
+  const detailsSubmitted = account.details_submitted;
+
+  // Determine account status
+  let status: 'pending' | 'active' | 'restricted' | 'disabled' = 'pending';
+
+  if (chargesEnabled && payoutsEnabled) {
+    status = 'active';
+  } else if (detailsSubmitted) {
+    status = 'restricted';
+  } else if (account.requirements?.disabled_reason) {
+    status = 'disabled';
+  }
+
+  // TODO: Implement your business logic here
+  // - Update builder's Stripe account status in database
+  // - Send notification if account becomes active or has issues
+  // Example:
+  // await db.update(users)
+  //   .set({
+  //     stripeAccountStatus: status,
+  //     stripeChargesEnabled: chargesEnabled,
+  //     stripePayoutsEnabled: payoutsEnabled,
+  //   })
+  //   .where(eq(users.stripeAccountId, account.id));
+
+  console.log('User ID:', userId);
+  console.log('Account status:', status);
+  console.log('Charges enabled:', chargesEnabled);
+  console.log('Payouts enabled:', payoutsEnabled);
+  console.log('Details submitted:', detailsSubmitted);
+
+  if (account.requirements?.currently_due?.length) {
+    console.log('Currently due requirements:', account.requirements.currently_due);
+  }
+
+  if (account.requirements?.errors?.length) {
+    console.log('Account errors:', account.requirements.errors);
+  }
+}
+
+async function handleApplicationAuthorized(
+  application: Stripe.Application
+): Promise<void> {
+  console.log('Application authorized:', application.id);
+  console.log('Application name:', application.name);
+
+  // TODO: Implement your business logic here
+  // - Log the authorization event
+  // - Update builder's authorization status
+}
+
+async function handleApplicationDeauthorized(
+  application: Stripe.Application
+): Promise<void> {
+  console.log('Application deauthorized:', application.id);
+  console.log('Application name:', application.name);
+
+  // TODO: Implement your business logic here
+  // - Mark the builder's Stripe connection as revoked
+  // - Disable their ability to receive payouts
+  // - Notify the builder
+  // Example:
+  // await db.update(users)
+  //   .set({
+  //     stripeAccountId: null,
+  //     stripeAccountStatus: 'disconnected',
+  //   })
+  //   .where(eq(users.stripeAccountId, application.id));
+}
+
+async function handleTransferCreated(transfer: Stripe.Transfer): Promise<void> {
+  console.log('Transfer created:', transfer.id);
+
+  const destination = transfer.destination as string;
+  const amount = transfer.amount;
+  const metadata = transfer.metadata || {};
+
+  // TODO: Implement your business logic here
+  // - Record the transfer in your database
+  // - Associate with the original purchase/transaction
+  // Example:
+  // await db.insert(transfers).values({
+  //   stripeTransferId: transfer.id,
+  //   connectedAccountId: destination,
+  //   amount,
+  //   currency: transfer.currency,
+  //   status: 'created',
+  //   metadata,
+  // });
+
+  console.log('Destination account:', destination);
+  console.log('Amount:', amount);
+  console.log('Currency:', transfer.currency);
+  console.log('Metadata:', metadata);
+}
+
+async function handleTransferUpdated(transfer: Stripe.Transfer): Promise<void> {
+  console.log('Transfer updated:', transfer.id);
+
+  const destination = transfer.destination as string;
+  const amount = transfer.amount;
+  const reversed = transfer.reversed;
+
+  // TODO: Implement your business logic here
+  // - Update transfer status in database
+  // - Check if transfer was reversed or completed
+  // Example:
+  // await db.update(transfers)
+  //   .set({
+  //     status: reversed ? 'reversed' : 'completed',
+  //     updatedAt: new Date()
+  //   })
+  //   .where(eq(transfers.stripeTransferId, transfer.id));
+
+  console.log('Destination account:', destination);
+  console.log('Amount:', amount);
+  console.log('Reversed:', reversed);
+}
+
+async function handleTransferReversed(transfer: Stripe.Transfer): Promise<void> {
+  console.log('Transfer reversed:', transfer.id);
+
+  const destination = transfer.destination as string;
+  const amount = transfer.amount;
+  const reversals = transfer.reversals;
+
+  // TODO: Implement your business logic here
+  // - Update transfer status in database
+  // - Handle refund/reversal logic
+  // - Notify builder about the reversal
+  // Example:
+  // await db.update(transfers)
+  //   .set({ status: 'reversed', reversedAt: new Date() })
+  //   .where(eq(transfers.stripeTransferId, transfer.id));
+
+  console.log('Destination account:', destination);
+  console.log('Amount:', amount);
+  console.log('Reversals:', reversals?.data?.length || 0);
+}
+
+/**
+ * Process a marketplace purchase and create transfer to builder
+ * This is called after a successful checkout for marketplace purchases
+ */
+async function processMarketplacePurchaseTransfer(
+  session: Stripe.Checkout.Session
+): Promise<void> {
+  const metadata = session.metadata || {};
+  const connectedAccountId = metadata.connectedAccountId;
+  const productId = metadata.productId;
+  const productType = metadata.productType;
+  const buyerId = metadata.buyerId;
+  const builderId = metadata.builderId;
+
+  if (!connectedAccountId) {
+    console.log('No connected account ID - not a marketplace purchase');
+    return;
+  }
+
+  // For destination charges, the transfer is automatic
+  // This function is mainly for logging and database updates
+  const amountTotal = session.amount_total || 0;
+  const { builderAmount, platformFee } = calculateRevenueSplit(amountTotal);
+
+  console.log('Marketplace purchase completed:');
+  console.log('- Product ID:', productId);
+  console.log('- Product Type:', productType);
+  console.log('- Buyer ID:', buyerId);
+  console.log('- Builder ID:', builderId);
+  console.log('- Total amount:', amountTotal);
+  console.log('- Builder receives:', builderAmount);
+  console.log('- Platform fee:', platformFee);
+  console.log('- Connected account:', connectedAccountId);
+
+  // TODO: Implement your business logic here
+  // - Record the purchase in your database
+  // - Grant access to the purchased agent/team
+  // - Send confirmation emails to buyer and builder
+  // Example:
+  // await db.insert(purchases).values({
+  //   productId,
+  //   productType,
+  //   buyerId,
+  //   builderId,
+  //   totalAmount: amountTotal,
+  //   builderAmount,
+  //   platformFee,
+  //   stripeSessionId: session.id,
+  //   stripePaymentIntentId: session.payment_intent as string,
+  //   status: 'completed',
+  // });
 }

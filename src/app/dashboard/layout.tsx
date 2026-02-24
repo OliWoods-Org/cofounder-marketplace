@@ -60,14 +60,17 @@ export default function DashboardLayout({
   const pathname = usePathname()
 
   return (
-    <div className="min-h-screen bg-dark-900 flex">
+    <div className="min-h-screen bg-dark-900 bg-mesh-gradient flex">
+      {/* Mesh gradient background overlay */}
+      <div className="mesh-gradient" />
+
       {/* Sidebar */}
-      <aside className="w-64 border-r border-glass-200 bg-dark-800/50 backdrop-blur-xl fixed h-full">
+      <aside className="w-64 border-r border-glass-200 bg-dark-800/50 backdrop-blur-xl fixed h-full z-20">
         <div className="p-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
-              <span className="text-dark-900 font-bold text-lg">C</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-hover flex items-center justify-center shadow-neon-glow">
+              <span className="text-white font-bold text-lg">C</span>
             </div>
             <div>
               <h1 className="font-display text-lg font-semibold text-white">CoFounder</h1>
@@ -85,7 +88,7 @@ export default function DashboardLayout({
                   href={item.href}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                     isActive
-                      ? 'bg-gold-500/10 text-gold-400 border border-gold-500/20'
+                      ? 'bg-accent-primary/10 text-accent-primary border border-accent-primary/20'
                       : 'text-gray-400 hover:text-white hover:bg-glass-100'
                   }`}
                 >
@@ -101,7 +104,7 @@ export default function DashboardLayout({
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-glass-200">
           <div className="glass-panel p-4">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-purple to-accent-blue flex items-center justify-center text-white font-semibold">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-accent-purple to-accent-primary flex items-center justify-center text-white font-semibold">
                 JD
               </div>
               <div>
@@ -123,7 +126,7 @@ export default function DashboardLayout({
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64">
+      <main className="flex-1 ml-64 relative z-10">
         {/* Top Bar */}
         <header className="h-16 border-b border-glass-200 bg-dark-900/80 backdrop-blur-xl sticky top-0 z-40 flex items-center justify-between px-8">
           <div className="flex items-center gap-4">
@@ -139,7 +142,7 @@ export default function DashboardLayout({
             </button>
             <Link
               href="/dashboard/create"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-semibold text-sm hover:shadow-lg hover:shadow-gold-500/25 transition-all"
+              className="btn-primary flex items-center gap-2 text-sm"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

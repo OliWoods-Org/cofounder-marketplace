@@ -79,7 +79,7 @@ function StatCard({
   return (
     <div className="glass-panel p-6 glass-panel-hover transition-all">
       <div className="flex items-start justify-between mb-4">
-        <div className="w-12 h-12 rounded-xl bg-gold-500/10 flex items-center justify-center text-gold-400">
+        <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary">
           {icon}
         </div>
         {trend && (
@@ -106,7 +106,7 @@ function AgentRow({
   return (
     <div className="glass-panel p-4 flex items-center justify-between gap-4 glass-panel-hover transition-all">
       <div className="flex items-center gap-4 flex-1">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-dark-900 font-bold text-lg shrink-0">
+        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-primary to-accent-hover flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-neon-glow">
           {agent.name.charAt(0)}
         </div>
         <div className="flex-1 min-w-0">
@@ -137,14 +137,15 @@ function AgentRow({
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">Revenue</p>
-          <p className="font-semibold gold-text">${agent.revenue.toLocaleString()}</p>
+          <p className="font-semibold blue-text">${agent.revenue.toLocaleString()}</p>
         </div>
         <div className="text-center">
           <p className="text-xs text-gray-500">Rating</p>
           <p className="font-semibold text-white flex items-center gap-1">
             {agent.rating > 0 ? (
               <>
-                <svg className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                {/* Gold stars for ratings - premium element */}
+                <svg className="w-4 h-4 text-accent-gold" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                 </svg>
                 {agent.rating}
@@ -193,7 +194,7 @@ function ActivityItem({ activity }: { activity: typeof MOCK_ACTIVITY[0] }) {
         )
       case 'review':
         return (
-          <div className="w-8 h-8 rounded-full bg-gold-500/20 flex items-center justify-center text-gold-400">
+          <div className="w-8 h-8 rounded-full bg-accent-gold/20 flex items-center justify-center text-accent-gold">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
@@ -201,7 +202,7 @@ function ActivityItem({ activity }: { activity: typeof MOCK_ACTIVITY[0] }) {
         )
       case 'download':
         return (
-          <div className="w-8 h-8 rounded-full bg-accent-blue/20 flex items-center justify-center text-accent-blue">
+          <div className="w-8 h-8 rounded-full bg-accent-primary/20 flex items-center justify-center text-accent-primary">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
@@ -228,7 +229,7 @@ function ActivityItem({ activity }: { activity: typeof MOCK_ACTIVITY[0] }) {
         <p className="text-xs text-gray-500">{activity.time}</p>
       </div>
       {activity.amount && (
-        <span className="text-sm font-semibold gold-text">+${activity.amount}</span>
+        <span className="text-sm font-semibold text-green-400">+${activity.amount}</span>
       )}
     </div>
   )
@@ -308,10 +309,10 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <p className="text-gray-400 text-sm">Total Revenue (Last 30 days)</p>
-              <p className="font-display text-3xl font-bold gold-text">$12,847</p>
+              <p className="font-display text-3xl font-bold blue-text">$12,847</p>
             </div>
             <div className="flex gap-2">
-              <button className="px-3 py-1 text-sm rounded-lg bg-gold-500/10 text-gold-400 border border-gold-500/20">
+              <button className="px-3 py-1 text-sm rounded-lg bg-accent-primary/10 text-accent-primary border border-accent-primary/20">
                 30D
               </button>
               <button className="px-3 py-1 text-sm rounded-lg text-gray-400 hover:bg-glass-100 transition-colors">
@@ -343,7 +344,7 @@ export default function DashboardPage() {
             <h3 className="font-display text-xl font-semibold text-white">My Agents</h3>
             <Link
               href="/dashboard/create"
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-semibold text-sm hover:shadow-lg hover:shadow-gold-500/25 transition-all"
+              className="btn-primary flex items-center gap-2 text-sm"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -370,7 +371,7 @@ export default function DashboardPage() {
               <p className="text-gray-500 mb-4">Create your first agent to start earning.</p>
               <Link
                 href="/dashboard/create"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-semibold hover:shadow-lg hover:shadow-gold-500/25 transition-all"
+                className="btn-primary inline-flex items-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />

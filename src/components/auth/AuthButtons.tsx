@@ -17,12 +17,12 @@ export function AuthButtons({ className = '' }: AuthButtonsProps) {
     <div className={`flex items-center gap-3 ${className}`}>
       <SignedOut>
         <SignInButton mode="modal">
-          <button className="px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors">
+          <button className="px-4 py-2 text-sm text-gray-300 hover:text-accent-primary transition-colors">
             Sign In
           </button>
         </SignInButton>
         <SignUpButton mode="modal">
-          <button className="px-4 py-2 rounded-lg bg-gold-500 text-dark-900 font-medium text-sm hover:bg-gold-400 transition-colors">
+          <button className="px-4 py-2 rounded-lg bg-accent-primary text-white font-medium text-sm hover:bg-accent-hover transition-colors shadow-neon-glow">
             Get Started
           </button>
         </SignUpButton>
@@ -32,7 +32,7 @@ export function AuthButtons({ className = '' }: AuthButtonsProps) {
           appearance={{
             elements: {
               avatarBox:
-                'w-10 h-10 rounded-xl border-2 border-gold-500/50 hover:border-gold-400 transition-colors',
+                'w-10 h-10 rounded-xl border-2 border-accent-primary/50 hover:border-accent-primary transition-colors',
               userButtonPopoverCard:
                 'bg-dark-800 border border-glass-300 shadow-2xl',
               userButtonPopoverActionButton:
@@ -60,7 +60,7 @@ export function GlassAuthButtons({ className = '' }: AuthButtonsProps) {
           </button>
         </SignInButton>
         <SignUpButton mode="modal">
-          <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-medium text-sm hover:shadow-lg hover:shadow-gold-500/25 transition-all backdrop-blur-sm">
+          <button className="btn-primary text-sm">
             Get Started
           </button>
         </SignUpButton>
@@ -74,7 +74,7 @@ export function GlassAuthButtons({ className = '' }: AuthButtonsProps) {
             appearance={{
               elements: {
                 avatarBox:
-                  'w-10 h-10 rounded-xl border-2 border-gold-500/50 hover:border-gold-400 transition-colors shadow-lg shadow-gold-500/20',
+                  'w-10 h-10 rounded-xl border-2 border-accent-primary/50 hover:border-accent-primary transition-colors shadow-lg shadow-accent-primary/20',
                 userButtonPopoverCard:
                   'bg-dark-800/95 backdrop-blur-xl border border-glass-300 shadow-2xl rounded-xl',
                 userButtonPopoverActionButton:

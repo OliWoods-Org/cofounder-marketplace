@@ -66,7 +66,7 @@ function StarRating({ rating, size = 'md' }: { rating: number; size?: 'sm' | 'md
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`${sizeClasses[size]} ${star <= rating ? 'text-gold-400' : 'text-gray-600'}`}
+          className={`${sizeClasses[size]} ${star <= rating ? 'text-accent-gold' : 'text-gray-600'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -89,7 +89,7 @@ function MCPBadge({ name }: { name: string }) {
 
   return (
     <div className="flex items-center gap-2 px-3 py-2 glass-panel rounded-lg">
-      <div className="w-8 h-8 rounded-md bg-gradient-to-br from-gold-400/20 to-gold-600/20 flex items-center justify-center text-gold-400 font-mono text-xs font-bold">
+      <div className="w-8 h-8 rounded-md bg-gradient-to-br from-accent-primary/20 to-accent-hover/20 flex items-center justify-center text-accent-primary font-mono text-xs font-bold">
         {icons[name] || name.slice(0, 2).toUpperCase()}
       </div>
       <div>
@@ -105,7 +105,7 @@ function RelatedAgentCard({ agent }: { agent: AgentTemplate }) {
     <Link href={`/agents/${agent.id}`}>
       <div className="glass-panel p-4 transition-all duration-300 hover:bg-glass-200 cursor-pointer">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-dark-900 font-bold">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-primary to-accent-hover flex items-center justify-center text-white font-bold">
             {agent.name.charAt(0)}
           </div>
           <div className="flex-1 min-w-0">
@@ -113,9 +113,9 @@ function RelatedAgentCard({ agent }: { agent: AgentTemplate }) {
             <p className="text-xs text-gray-400">{agent.role}</p>
           </div>
           <div className="text-right">
-            <p className="text-sm font-semibold text-gold-400">${agent.price}</p>
+            <p className="text-sm font-semibold text-accent-primary">${agent.price}</p>
             <div className="flex items-center gap-1">
-              <svg className="w-3 h-3 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-3 h-3 text-accent-gold" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
               </svg>
               <span className="text-xs text-gray-400">{agent.rating}</span>
@@ -138,7 +138,7 @@ export default function AgentDetailPage() {
       <div className="min-h-screen bg-dark-900 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-white mb-4">Agent Not Found</h1>
-          <Link href="/" className="text-gold-400 hover:text-gold-500 transition-colors">
+          <Link href="/" className="text-accent-primary hover:text-accent-secondary transition-colors">
             Return to Marketplace
           </Link>
         </div>
@@ -168,14 +168,17 @@ export default function AgentDetailPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-dark-900">
+    <div className="min-h-screen bg-dark-900 bg-mesh-gradient">
+      {/* Mesh gradient background overlay */}
+      <div className="mesh-gradient" />
+
       {/* Navigation */}
       <nav className="border-b border-glass-200 bg-dark-900/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center gap-2 text-sm text-gray-400">
-            <Link href="/" className="hover:text-white transition-colors">Marketplace</Link>
+            <Link href="/" className="hover:text-accent-primary transition-colors">Marketplace</Link>
             <span>/</span>
-            <Link href="/" className="hover:text-white transition-colors">Agents</Link>
+            <Link href="/" className="hover:text-accent-primary transition-colors">Agents</Link>
             <span>/</span>
             <span className="text-white">{agent.name}</span>
           </div>
@@ -190,7 +193,7 @@ export default function AgentDetailPage() {
             <div className="glass-panel p-8">
               <div className="flex flex-col md:flex-row md:items-start gap-6">
                 {/* Agent Icon */}
-                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-dark-900 font-bold text-4xl shadow-lg shadow-gold-500/25 flex-shrink-0">
+                <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-accent-primary to-accent-hover flex items-center justify-center text-white font-bold text-4xl shadow-lg shadow-accent-primary/25 flex-shrink-0">
                   {agent.name.charAt(0)}
                 </div>
 
@@ -198,7 +201,7 @@ export default function AgentDetailPage() {
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
                     <h1 className="text-3xl font-bold text-white">{agent.name}</h1>
-                    <span className="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-sm font-medium">
+                    <span className="px-3 py-1 rounded-full bg-accent-primary/20 text-accent-primary text-sm font-medium">
                       {agent.role}
                     </span>
                   </div>
@@ -228,10 +231,10 @@ export default function AgentDetailPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-sm text-gray-400">Monthly subscription</p>
-                  <p className="text-3xl font-bold gold-text">${agent.price}<span className="text-lg text-gray-400">/mo</span></p>
+                  <p className="text-3xl font-bold blue-text">${agent.price}<span className="text-lg text-gray-400">/mo</span></p>
                 </div>
               </div>
-              <button className="w-full py-4 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-bold text-lg transition-all hover:shadow-lg hover:shadow-gold-500/25 hover:scale-[1.02]">
+              <button className="btn-primary w-full py-4 text-lg">
                 Deploy Now
               </button>
               <p className="text-center text-sm text-gray-500 mt-3">Cancel anytime. No contracts.</p>
@@ -246,7 +249,7 @@ export default function AgentDetailPage() {
                     onClick={() => setActiveTab(tab.key)}
                     className={`px-6 py-3 text-sm font-medium transition-all whitespace-nowrap ${
                       activeTab === tab.key
-                        ? 'text-gold-400 border-b-2 border-gold-400'
+                        ? 'text-accent-primary border-b-2 border-accent-primary'
                         : 'text-gray-400 hover:text-white'
                     }`}
                   >
@@ -266,7 +269,7 @@ export default function AgentDetailPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {features.map((feature, index) => (
                         <div key={index} className="flex items-center gap-3">
-                          <svg className="w-5 h-5 text-gold-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="w-5 h-5 text-accent-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                           </svg>
                           <span className="text-gray-300">{feature}</span>
@@ -294,7 +297,7 @@ export default function AgentDetailPage() {
                           <p className="text-sm text-gray-400 mb-1">Triggers</p>
                           <div className="flex flex-wrap gap-2">
                             {agent.config.triggers.map((trigger) => (
-                              <span key={trigger} className="px-3 py-1 rounded-full bg-glass-200 text-gray-300 text-sm">
+                              <span key={trigger} className="px-3 py-1 rounded-full bg-glass-200 text-gray-300 text-sm border border-glass-300">
                                 {trigger.replace('_', ' ')}
                               </span>
                             ))}
@@ -336,12 +339,12 @@ export default function AgentDetailPage() {
                           return (
                             <div key={stars} className="flex items-center gap-2 mb-1">
                               <span className="text-sm text-gray-400 w-3">{stars}</span>
-                              <svg className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+                              <svg className="w-4 h-4 text-accent-gold" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                               </svg>
                               <div className="flex-1 h-2 bg-glass-200 rounded-full overflow-hidden">
                                 <div
-                                  className="h-full bg-gold-400 rounded-full transition-all"
+                                  className="h-full bg-accent-gold rounded-full transition-all"
                                   style={{ width: `${percentage}%` }}
                                 />
                               </div>
@@ -424,7 +427,7 @@ mcp: [${agent.config.mcp.map(m => `"${m}"`).join(', ')}]${agent.config.schedule 
                   {MOCK_CHANGELOG.map((release) => (
                     <div key={release.version} className="glass-panel p-6">
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 font-mono text-sm font-medium">
+                        <span className="px-3 py-1 rounded-full bg-accent-primary/20 text-accent-primary font-mono text-sm font-medium">
                           v{release.version}
                         </span>
                         <span className="text-sm text-gray-400">
@@ -438,7 +441,7 @@ mcp: [${agent.config.mcp.map(m => `"${m}"`).join(', ')}]${agent.config.schedule 
                       <ul className="space-y-2">
                         {release.changes.map((change, index) => (
                           <li key={index} className="flex items-start gap-2 text-gray-300">
-                            <span className="text-gold-400 mt-1">-</span>
+                            <span className="text-accent-primary mt-1">-</span>
                             <span>{change}</span>
                           </li>
                         ))}
@@ -456,9 +459,9 @@ mcp: [${agent.config.mcp.map(m => `"${m}"`).join(', ')}]${agent.config.schedule 
             <div className="hidden lg:block glass-panel p-6 sticky top-24">
               <div className="mb-4">
                 <p className="text-sm text-gray-400 mb-1">Monthly subscription</p>
-                <p className="text-4xl font-bold gold-text">${agent.price}<span className="text-xl text-gray-400">/mo</span></p>
+                <p className="text-4xl font-bold blue-text">${agent.price}<span className="text-xl text-gray-400">/mo</span></p>
               </div>
-              <button className="w-full py-4 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-bold text-lg transition-all hover:shadow-lg hover:shadow-gold-500/25 hover:scale-[1.02] mb-3">
+              <button className="btn-primary w-full py-4 text-lg mb-3">
                 Deploy Now
               </button>
               <p className="text-center text-sm text-gray-500 mb-6">Cancel anytime. No contracts.</p>
@@ -493,7 +496,7 @@ mcp: [${agent.config.mcp.map(m => `"${m}"`).join(', ')}]${agent.config.schedule 
                 {agent.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full bg-glass-200 text-gray-300 text-sm hover:bg-glass-300 cursor-pointer transition-colors"
+                    className="px-3 py-1 rounded-full bg-glass-200 text-gray-300 text-sm hover:bg-glass-300 cursor-pointer transition-colors border border-glass-300"
                   >
                     {tag}
                   </span>

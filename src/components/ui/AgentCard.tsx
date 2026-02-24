@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface AgentCardProps {
   id: string
@@ -28,6 +29,11 @@ export function AgentCard({
   onDeploy
 }: AgentCardProps) {
   const [isHovered, setIsHovered] = useState(false)
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    router.push(`/agents/${id}`)
+  }
 
   return (
     <div
@@ -36,6 +42,7 @@ export function AgentCard({
       }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={handleCardClick}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
@@ -88,7 +95,10 @@ export function AgentCard({
 
       {/* Action Button */}
       <button
-        onClick={() => onDeploy?.(id)}
+        onClick={(e) => {
+          e.stopPropagation()
+          onDeploy?.(id)
+        }}
         className="w-full py-3 rounded-xl bg-gradient-to-r from-gold-400 to-gold-600 text-dark-900 font-semibold transition-all hover:shadow-lg hover:shadow-gold-500/25"
       >
         Deploy Agent

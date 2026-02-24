@@ -1,17 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import type { ApiResponse } from '@/types';
-
-// Lazy initialization to avoid build-time errors
-function getStripe(): Stripe {
-  const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
-  }
-  return new Stripe(key, {
-    apiVersion: '2025-02-24.acacia' as Stripe.LatestApiVersion,
-  });
-}
+import {
+  getStripe,
+  calculateRevenueSplit,
+  createTransferToConnectedAccount,
+} from '@/lib/stripe';
 
 interface WebhookResult {
   received: boolean;

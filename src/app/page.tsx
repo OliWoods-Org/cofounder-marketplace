@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { AgentCard } from '@/components/ui/AgentCard'
 import { TeamCard } from '@/components/ui/TeamCard'
 import { FEATURED_AGENTS, FEATURED_TEAMS } from '@/data/featured-agents'
+import { GlassAuthButtons } from '@/components/auth/AuthButtons'
 
 type Tab = 'agents' | 'teams'
 type Category = 'all' | 'project-management' | 'devops' | 'security' | 'consulting'
@@ -47,9 +48,7 @@ export default function MarketplacePage() {
               <button className="px-4 py-2 text-sm text-gray-300 hover:text-white transition-colors">
                 Builder Dashboard
               </button>
-              <button className="px-4 py-2 rounded-lg bg-gold-500 text-dark-900 font-medium text-sm hover:bg-gold-400 transition-colors">
-                Connect Wallet
-              </button>
+              <GlassAuthButtons />
             </div>
           </div>
         </div>

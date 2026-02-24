@@ -53,12 +53,26 @@ The marketplace connects to the CoFounder orchestrator backend, which manages ag
 
 ---
 
+## Marketplace Catalog
+
+| Category | Items | Description |
+|----------|-------|-------------|
+| **Agent Templates** | 10 teams (47+ agents) | Full agent teams: Startup Founder, E-commerce Ops, Content Creation, Customer Support, DevOps, Data Analytics, Legal/Compliance, HR/Recruiting, Sales/BD, Financial Ops |
+| **Workflow Templates** | 15 | Due diligence, product launch, investor updates, competitive analysis, customer feedback, sprint planning, release management, incident response, onboarding/offboarding, contract lifecycle, expense approval, content calendar, lead scoring, customer success |
+| **MCP Servers** | 15 | Stripe, HubSpot, Notion, Airtable, Slack, GitHub, Figma, Analytics, Customer.io, Intercom, Zendesk, Salesforce, QuickBooks, Shopify, AWS |
+| **Dashboard Widgets** | 10 | Revenue metrics, runway calculator, team velocity, customer health, pipeline, burn rate, OKR tracker, hiring pipeline, support tickets, social media |
+| **Bonus Items** | 5 | Custom Agent Builder, Workflow SDK, Data Connector Library, Fine-tuning Service, Compliance Templates |
+| **Total** | **55 items** | 8 free, 40 pro, 7 enterprise |
+
+---
+
 ## Features
 
 | Feature | Description |
 |---------|-------------|
-| **8 Pre-Built Agents** | Production-ready agents for standups, code review, security, deployment, documentation, task orchestration, client reporting, and cost optimization. |
-| **3 Team Bundles** | Coordinated agent teams for DevOps, Project Management, and Consulting. Agents within a bundle share context and hand off tasks automatically. |
+| **55 Marketplace Items** | 10 agent teams, 15 workflows, 15 MCP servers, 10 dashboard widgets, and 5 bonus tools across free, pro, and enterprise tiers. |
+| **10 Agent Team Templates** | Multi-agent teams with 4-5 agents each covering startup ops, e-commerce, content, support, DevOps, analytics, legal, HR, sales, and finance. |
+| **15 MCP Integrations** | Deep integrations with Stripe, HubSpot, Notion, Airtable, Slack, GitHub, Figma, Customer.io, Intercom, Zendesk, Salesforce, QuickBooks, Shopify, AWS, and a universal analytics MCP. |
 | **One-Click Deploy** | Deploy agents to a running CoFounder instance in seconds. The deployment pipeline handles configuration, tool provisioning, and schedule registration. |
 | **Clerk Authentication** | Enterprise-grade authentication with SSO support, session management, and role-based access for builders vs. buyers. |
 | **Stripe Connect Payments** | Marketplace transactions with automatic 70/30 revenue split. Builders connect their Stripe accounts for direct payouts. |
@@ -127,18 +141,37 @@ Open [http://localhost:3001](http://localhost:3001) to view the marketplace.
 
 ---
 
-## Agent Catalog
+## Agent Team Catalog
 
-| Agent | Role | Description | Price |
-|-------|------|-------------|-------|
-| **StandupBot** | Daily Reporter | Generates daily standups from git activity. Summarizes completed work, in-progress tasks, and blockers. Pushes reports to Slack or email. | $29/mo |
-| **ReviewBot** | PR Reviewer | Automated code review covering security patterns, brand compliance, type safety, accessibility, and performance. Posts inline comments on GitHub PRs. | $49/mo |
-| **TaskMaster** | Task Orchestrator | Intelligent task assignment based on agent skills, availability, and workload balancing. Decomposes complex tasks into sub-tasks and routes them. | $39/mo |
-| **DocBot** | Documentation Keeper | Keeps CLAUDE.md, AGENTS.md, README, and API docs in sync with code changes. Detects drift between docs and implementation. | $29/mo |
-| **SecBot** | Security Scanner | Daily vulnerability scans, exposed secret detection, dependency audits, and unsafe code pattern identification. Generates remediation PRs. | $59/mo |
-| **ShipBot** | Deployment Manager | Handles deploy workflows for Vercel, Railway, and Fly.io. Runs health checks post-deploy and triggers automatic rollback on failure. | $49/mo |
-| **ReportBot** | Client Reporter | Generates formatted weekly client reports from git activity, task completion, and time tracking data. Outputs HTML, PDF, or Markdown. | $39/mo |
-| **CostBot** | Cost Optimizer | Monitors token usage, API costs, and infrastructure spend across all agents. Suggests model downgrades and caching strategies to reduce costs. | $29/mo |
+Each team includes 4-5 specialized agents that coordinate and hand off work to each other.
+
+| Team | Agents | Use Case | Tier |
+|------|--------|----------|------|
+| **Startup Founder Pack** | Chief of Staff, Research, Communications, Strategy | Solo founders and pre-seed to Series A startups | Pro |
+| **E-commerce Operations** | Inventory Manager, Order Fulfillment, Product Catalog, Returns/Refunds | Shopify/WooCommerce stores, multi-channel sellers | Pro |
+| **Content Creation Squad** | Strategist, Writer, Editor, SEO Specialist, Visual Content | Marketing teams, content agencies, personal brands | Pro |
+| **Customer Support Team** | Tier 1 Support, Technical Support, Escalation Manager, Knowledge Base, Sentiment | SaaS companies, service providers | Pro |
+| **DevOps and Infrastructure** | Deployment, Monitoring, Security, Cost Optimization, Documentation | Engineering teams, platform teams | Enterprise |
+| **Data Analytics Team** | Analyst, Visualization, Data Quality, Insights, Reporting | BI teams, product analytics, marketing analytics | Pro |
+| **Legal and Compliance** | Contract Review, Compliance Monitor, IP Protection, Privacy, Legal Research | Startups without counsel, regulated industries | Enterprise |
+| **HR and Recruiting** | Recruiter, Interview Coordinator, Onboarding, HR Ops, Culture | Growing startups, remote teams, high-volume hiring | Pro |
+| **Sales and BD** | SDR, Sales Enablement, Deal Desk, Partnership, Revenue Ops | B2B SaaS, sales-led orgs, partnership businesses | Pro |
+| **Financial Operations** | Bookkeeping, AP/AR, Financial Planning, Tax Prep, Investor Relations | Pre-revenue to Series B, bootstrapped businesses | Pro |
+
+### Launch Agents (Shipped)
+
+These 8 agents are production-ready and available now in `src/data/featured-agents.ts`:
+
+| Agent | Role | Price |
+|-------|------|-------|
+| **StandupBot** | Daily standup generation from git activity | $29/mo |
+| **ReviewBot** | Automated PR review with security and brand compliance | $49/mo |
+| **TaskMaster** | Intelligent task assignment and workload balancing | $39/mo |
+| **DocBot** | Documentation sync with code changes | $29/mo |
+| **SecBot** | Daily vulnerability scans and secret detection | $59/mo |
+| **ShipBot** | Deploy workflows with health checks and rollback | $49/mo |
+| **ReportBot** | Weekly client report generation | $39/mo |
+| **CostBot** | Token usage and infrastructure cost monitoring | $29/mo |
 
 ---
 
@@ -185,6 +218,71 @@ Built for agencies managing multiple client projects simultaneously.
 | DocBot | Documentation Keeper |
 
 **Workflow:** Multi-project tracking with per-client reporting, cross-project task distribution, cost allocation per client, and automated documentation updates.
+
+---
+
+## MCP Servers (15)
+
+Deep integrations that give agents read/write access to business tools.
+
+| MCP Server | Capabilities | Tier |
+|------------|-------------|------|
+| **Stripe Billing** | Subscriptions, invoices, payments, revenue metrics, dunning | Pro |
+| **HubSpot CRM** | Contacts, deals, pipelines, email sequences, marketing analytics | Pro |
+| **Notion Sync** | Databases, pages, blocks, properties, templates | Free |
+| **Airtable** | Bases, records, views, automations, attachments | Pro |
+| **Slack Workflows** | Messages, channels, Workflow Builder, apps, file sharing | Pro |
+| **GitHub Projects** | Issues, PRs, project boards, releases, Actions, code search | Pro |
+| **Figma Design** | Files, components, design tokens, comments, version history | Pro |
+| **Analytics Dashboard** | Multi-source aggregation (GA, Mixpanel, Amplitude), custom metrics | Pro |
+| **Customer.io** | Campaigns, segments, workflows, A/B testing, event tracking | Pro |
+| **Intercom** | Conversations, users, articles, bots, team inbox | Pro |
+| **Zendesk** | Tickets, macros, knowledge base, SLA management | Pro |
+| **Salesforce** | Objects, reports, flows, custom objects, activity history | Enterprise |
+| **QuickBooks** | Invoices, expenses, reconciliation, reports, payroll | Pro |
+| **Shopify** | Products, orders, inventory, customers, discounts | Pro |
+| **AWS Infrastructure** | EC2, S3, Lambda, CloudWatch, Cost Explorer, IAM | Enterprise |
+
+---
+
+## Workflow Templates (15)
+
+Pre-built automation workflows for common startup processes.
+
+| Workflow | Integrations | Tier |
+|----------|-------------|------|
+| Due Diligence | Notion, Google Drive, DocSend, Carta | Pro |
+| Product Launch Checklist | Asana, Slack, HubSpot, Mixpanel | Free |
+| Investor Update Generator | QuickBooks, Stripe, HubSpot, Gmail | Pro |
+| Competitive Analysis Pipeline | Ahrefs, SimilarWeb, Crunchbase | Pro |
+| Customer Feedback Loop | Intercom, Zendesk, Typeform, Productboard | Pro |
+| Sprint Planning Automation | Jira, Linear, GitHub, Notion | Free |
+| Release Management | GitHub, LaunchDarkly, Slack, PagerDuty | Pro |
+| Incident Response Playbook | PagerDuty, Slack, StatusPage, Jira | Pro |
+| Onboarding Automation | BambooHR, Slack, Google Workspace, Notion | Pro |
+| Offboarding Automation | BambooHR, Okta, Google Workspace, Slack | Pro |
+| Contract Lifecycle Management | DocuSign, Salesforce, Notion, Google Drive | Enterprise |
+| Expense Approval | Expensify, QuickBooks, Slack, Google Sheets | Pro |
+| Content Calendar | Notion, Buffer, HubSpot, Google Analytics | Free |
+| Lead Scoring Pipeline | HubSpot, Clearbit, Slack, Salesforce | Pro |
+| Customer Success Playbook | Gainsight, Salesforce, Intercom, Slack | Pro |
+
+---
+
+## Dashboard Widgets (10)
+
+| Widget | Data Sources | Tier |
+|--------|-------------|------|
+| Revenue Metrics (MRR/ARR/ARPU) | Stripe, ChartMogul, ProfitWell | Pro |
+| Runway Calculator | QuickBooks, Stripe, Bank feeds | Pro |
+| Team Velocity Tracker | Jira, Linear, GitHub | Free |
+| Customer Health Score | Gainsight, Intercom, Mixpanel | Pro |
+| Pipeline Visualization | HubSpot, Salesforce, Pipedrive | Pro |
+| Burn Rate Monitor | QuickBooks, Expensify, Brex | Pro |
+| OKR Progress Tracker | Lattice, 15Five, Notion | Free |
+| Hiring Pipeline | Greenhouse, Lever, Ashby | Pro |
+| Support Ticket Dashboard | Zendesk, Intercom, Freshdesk | Pro |
+| Social Media Metrics | Buffer, Sprout Social, native APIs | Free |
 
 ---
 

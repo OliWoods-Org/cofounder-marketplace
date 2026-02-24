@@ -36,8 +36,8 @@ export default function MarketplacePage() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-primary to-accent-hover flex items-center justify-center shadow-neon-glow">
-                <span className="text-white font-bold text-xl">C</span>
+              <div className="w-10 h-10 rounded-xl bg-dark-800 flex items-center justify-center overflow-hidden">
+                <img src="/cofounder.svg" alt="CoFounder" className="w-8 h-8" />
               </div>
               <div>
                 <h1 className="font-display text-xl font-semibold text-white">CoFounder Marketplace</h1>

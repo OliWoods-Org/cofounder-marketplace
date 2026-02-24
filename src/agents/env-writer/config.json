@@ -1,0 +1,22 @@
+{
+  "id": "ks-env-writer",
+  "name": "EnvWriter",
+  "version": "1.0.0",
+  "role": "Environment File Manager",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["spawned_by_orchestrator", "security_review_complete"],
+  "mcp_servers": ["1password", "filesystem"],
+  "memory": {
+    "enabled": false,
+    "retention_days": 0
+  },
+  "temperature": 0.0,
+  "env_config": {
+    "target_files": [".env", ".env.local", ".env.development"],
+    "backup_before_write": true,
+    "preserve_comments": true,
+    "preserve_existing": true,
+    "validate_format": true
+  },
+  "supported_formats": ["dotenv", "json", "yaml"]
+}

@@ -79,6 +79,8 @@ The marketplace connects to the CoFounder orchestrator backend, which manages ag
 | **Meilisearch Integration** | Sub-millisecond agent discovery with typo tolerance, faceted filtering by category/price/rating, and instant results as you type. |
 | **Usage Analytics** | Track token consumption, task completion rates, and compute time per deployed agent. Usage data feeds into billing for metered pricing models. |
 | **Reviews and Ratings** | Community-driven quality scores. Buyers rate agents after deployment, and aggregate scores surface the best-performing agents. |
+| **Builder Leaderboard** | Rankings by revenue, downloads, and ratings. Badge system recognizes top sellers, trending builders, and rising stars. |
+| **Dynamic Featured Placement** | Database-driven featured agents with hero banners, trending sections, and staff picks. Admin controls for managing placement and priority. |
 
 ---
 
@@ -400,6 +402,88 @@ curl -X POST "https://your-domain.com/api/teams" \
   }'
 ```
 
+### Reviews
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/agents/:id/reviews` | Get reviews for an agent with stats and pagination |
+| `POST` | `/api/reviews` | Submit a review (authenticated users only) |
+
+#### Get Agent Reviews
+
+```bash
+curl -X GET "https://your-domain.com/api/agents/uuid/reviews?page=1&limit=10"
+```
+
+**Response:**
+
+```json
+{
+  "reviews": [
+    {
+      "id": "uuid",
+      "rating": 5,
+      "comment": "Excellent agent, saved hours of work!",
+      "createdAt": "2026-02-15T10:30:00Z"
+    }
+  ],
+  "stats": {
+    "totalCount": 42,
+    "avgRating": 4.7,
+    "breakdown": { "5": 30, "4": 8, "3": 3, "2": 1, "1": 0 }
+  }
+}
+```
+
+### Leaderboard
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/leaderboard` | Get builder rankings with badges |
+
+#### Get Leaderboard
+
+```bash
+curl -X GET "https://your-domain.com/api/leaderboard?sortBy=revenue&limit=50"
+```
+
+**Response:**
+
+```json
+{
+  "leaderboard": [
+    {
+      "rank": 1,
+      "builderId": "uuid",
+      "totalRevenue": "125000.00",
+      "totalDownloads": 8500,
+      "totalAgents": 12,
+      "avgRating": "4.8",
+      "badges": ["top_seller", "verified", "prolific"]
+    }
+  ],
+  "badges": {
+    "top_seller": { "name": "Top Seller", "description": "Top 10 by revenue" },
+    "trending": { "name": "Trending", "description": "High download growth" },
+    "verified": { "name": "Verified", "description": "Verified builder" },
+    "rising_star": { "name": "Rising Star", "description": "New builder with high ratings" },
+    "prolific": { "name": "Prolific", "description": "10+ published agents" }
+  }
+}
+```
+
+### Featured Agents (Admin)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/featured` | Get currently featured agents |
+| `GET` | `/api/admin/featured` | List all featured placements (admin) |
+| `POST` | `/api/admin/featured` | Add featured placement (admin) |
+| `PATCH` | `/api/admin/featured?id=xxx` | Update placement (admin) |
+| `DELETE` | `/api/admin/featured?id=xxx` | Remove placement (admin) |
+
+**Placement Types:** `hero`, `trending`, `staff_pick`, `new`
+
 ### Webhooks
 
 | Endpoint | Description |
@@ -543,6 +627,9 @@ src/
 - [x] Stripe Connect integration
 - [x] 8 launch agents
 - [x] 3 team bundles
+- [x] Reviews and ratings system
+- [x] Builder leaderboard with badges
+- [x] Dynamic featured placement
 
 ### Q2 2026
 - [ ] Agent testing sandbox

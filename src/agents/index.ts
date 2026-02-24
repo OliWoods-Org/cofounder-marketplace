@@ -34,6 +34,12 @@ export const AGENT_IDS = {
   SHIP_BOT: 'pm-deployer',
   REPORT_BOT: 'pm-client-reporter',
   COST_BOT: 'pm-cost-optimizer',
+  KS_ORCHESTRATOR: 'ks-orchestrator',
+  KS_COLLECTOR: 'ks-collector',
+  KS_EMAIL_HANDLER: 'ks-email-handler',
+  KS_TRACKER: 'ks-tracker',
+  KS_SECURITY_REVIEWER: 'ks-security-reviewer',
+  KS_ENV_WRITER: 'ks-env-writer',
 } as const
 
 export type AgentId = typeof AGENT_IDS[keyof typeof AGENT_IDS]
@@ -92,6 +98,42 @@ export const AGENT_REGISTRY: Record<AgentId, {
     promptPath: './cost-bot/prompt.md',
     category: 'cost-management',
     requiredMcp: ['filesystem'],
+  },
+  [AGENT_IDS.KS_ORCHESTRATOR]: {
+    configPath: './key-swarm-orchestrator/config.json',
+    promptPath: './key-swarm-orchestrator/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['1password', 'playwright', 'filesystem'],
+  },
+  [AGENT_IDS.KS_COLLECTOR]: {
+    configPath: './key-collector/config.json',
+    promptPath: './key-collector/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['playwright', '1password'],
+  },
+  [AGENT_IDS.KS_EMAIL_HANDLER]: {
+    configPath: './email-handler/config.json',
+    promptPath: './email-handler/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['gmail', 'twilio', '1password'],
+  },
+  [AGENT_IDS.KS_TRACKER]: {
+    configPath: './zero-context-tracker/config.json',
+    promptPath: './zero-context-tracker/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['playwright', 'filesystem'],
+  },
+  [AGENT_IDS.KS_SECURITY_REVIEWER]: {
+    configPath: './security-reviewer/config.json',
+    promptPath: './security-reviewer/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['1password', 'filesystem', 'github'],
+  },
+  [AGENT_IDS.KS_ENV_WRITER]: {
+    configPath: './env-writer/config.json',
+    promptPath: './env-writer/prompt.md',
+    category: 'key-swarm',
+    requiredMcp: ['1password', 'filesystem'],
   },
 }
 

@@ -159,6 +159,104 @@ export const FEATURED_AGENTS: AgentTemplate[] = [
       mcp: ['filesystem'],
       schedule: 'weekly'
     }
+  },
+
+  // Key Swarm Agents
+  {
+    id: 'ks-orchestrator',
+    name: 'SwarmOrchestrator',
+    role: 'Swarm Command & Control',
+    description: 'Coordinates up to 20 parallel browser agents to collect API keys from provider signup flows. Reads required keys from 1Password, spawns pods, handles escalations, and delivers a complete .env in under 5 minutes.',
+    price: 49,
+    rating: 4.9,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'orchestration', 'automation', '1password'],
+    config: {
+      focus: 'Parallel API key acquisition coordination',
+      mcp: ['1password', 'playwright', 'filesystem'],
+      triggers: ['manual']
+    }
+  },
+  {
+    id: 'ks-collector',
+    name: 'KeyCollector',
+    role: 'API Key Acquisition',
+    description: 'Operates inside a headless browser pod to sign up for a single API provider, complete verification, set up billing, extract the key, and save it to 1Password. Handles 20+ provider signup flows.',
+    price: 0,
+    rating: 4.8,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'browser-automation', 'signup'],
+    config: {
+      focus: 'Single-provider API key extraction',
+      mcp: ['playwright', '1password'],
+      triggers: ['spawned_by_orchestrator']
+    }
+  },
+  {
+    id: 'ks-email-handler',
+    name: 'EmailHandler',
+    role: 'Verification & 2FA Router',
+    description: 'Shared service that monitors the orchestrator inbox for verification emails and SMS codes. Extracts codes, matches them to requesting pods, and routes them back. Handles concurrent verifications across all active pods.',
+    price: 0,
+    rating: 4.7,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'email', '2fa', 'verification'],
+    config: {
+      focus: 'Email verification and 2FA code routing',
+      mcp: ['gmail', 'twilio', '1password'],
+      triggers: ['spawned_by_orchestrator', 'email_received']
+    }
+  },
+  {
+    id: 'ks-tracker',
+    name: 'ZeroContextTracker',
+    role: 'Audit & Learning Observer',
+    description: 'Stateless observer that attaches to each browser pod and records every action, timing, and state change. Generates JSONL audit logs that feed the learning pipeline to improve future runs.',
+    price: 0,
+    rating: 4.6,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'audit', 'observability', 'learning'],
+    config: {
+      focus: 'Zero-context action recording and audit trails',
+      mcp: ['playwright', 'filesystem'],
+      triggers: ['spawned_by_orchestrator']
+    }
+  },
+  {
+    id: 'ks-security-reviewer',
+    name: 'SecurityReviewer',
+    role: 'Key Validation & Security Audit',
+    description: 'Final checkpoint after key collection. Validates .gitignore, tests each key for liveness, audits permission scopes, probes rate limits, and generates a compliance report covering SOC2 and GDPR.',
+    price: 19,
+    rating: 4.9,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'security', 'compliance', 'audit'],
+    config: {
+      focus: 'Post-collection security validation and compliance',
+      mcp: ['1password', 'filesystem', 'github'],
+      triggers: ['spawned_by_orchestrator', 'swarm_complete']
+    }
+  },
+  {
+    id: 'ks-env-writer',
+    name: 'EnvWriter',
+    role: 'Environment File Manager',
+    description: 'Copies collected API keys from 1Password vault to .env files. Merges with existing environment, preserves comments and formatting, handles edge cases like placeholders and special characters.',
+    price: 0,
+    rating: 4.8,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    tags: ['key-swarm', 'environment', 'configuration', 'dotenv'],
+    config: {
+      focus: 'Environment file generation and management',
+      mcp: ['1password', 'filesystem'],
+      triggers: ['spawned_by_orchestrator', 'security_review_complete']
+    }
   }
 ]
 
@@ -207,6 +305,23 @@ export const FEATURED_TEAMS: TeamTemplate[] = [
       { name: 'StandupBot', role: 'Daily Reporter' },
       { name: 'CostBot', role: 'Cost Optimizer' },
       { name: 'DocBot', role: 'Documentation Keeper' }
+    ]
+  },
+  {
+    id: 'team-key-swarm',
+    name: 'Agent Key Swarm',
+    description: 'Zero-touch API key collection for new projects. 20 parallel browser agents sign up for APIs, handle verification, set up billing, and deliver a complete .env file in under 5 minutes. Integrated with 1Password for secure storage, automated security review, and .env generation.',
+    price: 49,
+    rating: 4.9,
+    downloads: 180,
+    builder: 'OliwoodLabs',
+    agents: [
+      { name: 'SwarmOrchestrator', role: 'Command & Control' },
+      { name: 'KeyCollector', role: 'API Key Acquisition (x20 parallel)' },
+      { name: 'EmailHandler', role: 'Verification & 2FA Router' },
+      { name: 'ZeroContextTracker', role: 'Audit & Learning Observer' },
+      { name: 'SecurityReviewer', role: 'Key Validation & Security Audit' },
+      { name: 'EnvWriter', role: 'Environment File Manager' }
     ]
   }
 ]

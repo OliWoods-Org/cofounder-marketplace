@@ -1,0 +1,22 @@
+{
+  "id": "ks-security-reviewer",
+  "name": "SecurityReviewer",
+  "version": "1.0.0",
+  "role": "Key Validation & Security Audit",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["spawned_by_orchestrator", "swarm_complete"],
+  "mcp_servers": ["1password", "filesystem", "github"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 365
+  },
+  "temperature": 0.0,
+  "checks": [
+    "gitignore_validation",
+    "key_liveness_test",
+    "permission_scope_audit",
+    "rate_limit_probe",
+    "compliance_review"
+  ],
+  "compliance_standards": ["SOC2", "GDPR", "OWASP"]
+}

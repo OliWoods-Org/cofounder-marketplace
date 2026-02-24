@@ -1,0 +1,447 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Provider-specific signup flows for KeyCollector agents",
+  "version": "1.0.0",
+  "providers": {
+    "stripe": {
+      "name": "Stripe",
+      "signupUrl": "https://dashboard.stripe.com/register",
+      "keyLocation": "https://dashboard.stripe.com/test/apikeys",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["secret_key", "publishable_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[name='email']",
+          "passwordSelector": "input[name='password']",
+          "submitSelector": "button[type='submit']",
+          "waitFor": "text=Verify your email"
+        },
+        "verify": {
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://dashboard.stripe.com/test/apikeys",
+          "secretKeySelector": "[data-testid='secret-key-reveal']",
+          "publishableKeySelector": "[data-testid='publishable-key']",
+          "revealButton": "button:has-text('Reveal test key')"
+        }
+      },
+      "envMapping": {
+        "secret_key": "STRIPE_SECRET_KEY",
+        "publishable_key": "STRIPE_PUBLISHABLE_KEY"
+      }
+    },
+    "anthropic": {
+      "name": "Anthropic",
+      "signupUrl": "https://console.anthropic.com/signup",
+      "keyLocation": "https://console.anthropic.com/settings/keys",
+      "billingRequired": true,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": false,
+      "keyTypes": ["api_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']",
+          "waitFor": "text=Verify your email"
+        },
+        "verify": {
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "billing": {
+          "navigate": "https://console.anthropic.com/settings/billing",
+          "addCardButton": "button:has-text('Add payment method')",
+          "cardNumberSelector": "input[name='cardNumber']",
+          "expirySelector": "input[name='cardExpiry']",
+          "cvcSelector": "input[name='cardCvc']",
+          "submitSelector": "button:has-text('Add card')"
+        },
+        "extractKey": {
+          "navigate": "https://console.anthropic.com/settings/keys",
+          "createKeyButton": "button:has-text('Create key')",
+          "nameInput": "input[name='name']",
+          "submitSelector": "button:has-text('Create')",
+          "copyKeySelector": "button:has-text('Copy')"
+        }
+      },
+      "envMapping": {
+        "api_key": "ANTHROPIC_API_KEY"
+      }
+    },
+    "openai": {
+      "name": "OpenAI",
+      "signupUrl": "https://platform.openai.com/signup",
+      "keyLocation": "https://platform.openai.com/api-keys",
+      "billingRequired": true,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": false,
+      "keyTypes": ["api_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "continueButton": "button:has-text('Continue')",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "verify": {
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "billing": {
+          "navigate": "https://platform.openai.com/settings/organization/billing/overview",
+          "addPaymentButton": "button:has-text('Add payment')",
+          "cardFrame": "iframe[name='stripe_checkout_app']",
+          "cardNumberSelector": "input[name='cardnumber']",
+          "expirySelector": "input[name='exp-date']",
+          "cvcSelector": "input[name='cvc']",
+          "submitSelector": "button:has-text('Add payment method')"
+        },
+        "extractKey": {
+          "navigate": "https://platform.openai.com/api-keys",
+          "createKeyButton": "button:has-text('Create new secret key')",
+          "nameInput": "input[placeholder='My Test Key']",
+          "submitSelector": "button:has-text('Create secret key')",
+          "copyKeySelector": "button[aria-label='Copy']"
+        }
+      },
+      "envMapping": {
+        "api_key": "OPENAI_API_KEY"
+      }
+    },
+    "supabase": {
+      "name": "Supabase",
+      "signupUrl": "https://supabase.com/dashboard/sign-up",
+      "keyLocation": "https://supabase.com/dashboard/project/_/settings/api",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["anon_key", "service_role_key", "url"],
+      "steps": {
+        "signup": {
+          "githubOAuth": "button:has-text('Continue with GitHub')",
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "createProject": {
+          "newProjectButton": "button:has-text('New project')",
+          "projectNameInput": "input[name='name']",
+          "databasePasswordInput": "input[name='dbPassword']",
+          "regionSelect": "select[name='region']",
+          "createButton": "button:has-text('Create new project')",
+          "waitFor": "text=Project is being created"
+        },
+        "extractKey": {
+          "navigate": "/settings/api",
+          "anonKeySelector": "[data-testid='anon-key']",
+          "serviceRoleKeySelector": "[data-testid='service-role-key']",
+          "urlSelector": "[data-testid='project-url']"
+        }
+      },
+      "envMapping": {
+        "anon_key": "SUPABASE_ANON_KEY",
+        "service_role_key": "SUPABASE_SERVICE_ROLE_KEY",
+        "url": "SUPABASE_URL"
+      }
+    },
+    "twilio": {
+      "name": "Twilio",
+      "signupUrl": "https://www.twilio.com/try-twilio",
+      "keyLocation": "https://console.twilio.com/us1/account/keys-credentials/api-keys",
+      "billingRequired": true,
+      "emailVerification": true,
+      "sms2fa": true,
+      "freeApiKeys": true,
+      "trialCredits": true,
+      "keyTypes": ["account_sid", "auth_token", "phone_number"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[name='email']",
+          "firstNameSelector": "input[name='first_name']",
+          "lastNameSelector": "input[name='last_name']",
+          "passwordSelector": "input[name='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "verify": {
+          "phoneSelector": "input[name='phone']",
+          "sendCodeButton": "button:has-text('Send code')",
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://console.twilio.com/us1/develop/phone-numbers/getting-started",
+          "accountSidSelector": "[data-testid='account-sid']",
+          "authTokenSelector": "[data-testid='auth-token-reveal']",
+          "getPhoneNumberButton": "button:has-text('Get a trial phone number')",
+          "confirmPhoneButton": "button:has-text('Choose this number')"
+        }
+      },
+      "envMapping": {
+        "account_sid": "TWILIO_ACCOUNT_SID",
+        "auth_token": "TWILIO_AUTH_TOKEN",
+        "phone_number": "TWILIO_PHONE_NUMBER"
+      }
+    },
+    "resend": {
+      "name": "Resend",
+      "signupUrl": "https://resend.com/signup",
+      "keyLocation": "https://resend.com/api-keys",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["api_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "verify": {
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://resend.com/api-keys",
+          "createKeyButton": "button:has-text('Create API Key')",
+          "nameInput": "input[name='name']",
+          "submitSelector": "button:has-text('Add')",
+          "copyKeySelector": "button[aria-label='Copy']"
+        }
+      },
+      "envMapping": {
+        "api_key": "RESEND_API_KEY"
+      }
+    },
+    "elevenlabs": {
+      "name": "ElevenLabs",
+      "signupUrl": "https://elevenlabs.io/sign-up",
+      "keyLocation": "https://elevenlabs.io/app/settings/api-keys",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["api_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "verify": {
+          "waitFor": "text=Verify your email",
+          "clickLink": true
+        },
+        "extractKey": {
+          "navigate": "https://elevenlabs.io/app/settings/api-keys",
+          "apiKeySelector": "[data-testid='api-key']",
+          "revealButton": "button:has-text('Show')"
+        }
+      },
+      "envMapping": {
+        "api_key": "ELEVENLABS_API_KEY"
+      }
+    },
+    "vercel": {
+      "name": "Vercel",
+      "signupUrl": "https://vercel.com/signup",
+      "keyLocation": "https://vercel.com/account/tokens",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["token"],
+      "steps": {
+        "signup": {
+          "continueWithEmail": "button:has-text('Continue with Email')",
+          "emailSelector": "input[type='email']",
+          "submitSelector": "button[type='submit']",
+          "waitFor": "text=Verify your email"
+        },
+        "verify": {
+          "codeSelector": "input[name='code']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://vercel.com/account/tokens",
+          "createTokenButton": "button:has-text('Create')",
+          "nameInput": "input[name='name']",
+          "scopeSelect": "Full Access",
+          "submitSelector": "button:has-text('Create Token')",
+          "copyTokenSelector": "button[aria-label='Copy']"
+        }
+      },
+      "envMapping": {
+        "token": "VERCEL_TOKEN"
+      }
+    },
+    "railway": {
+      "name": "Railway",
+      "signupUrl": "https://railway.app/login",
+      "keyLocation": "https://railway.app/account/tokens",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["token"],
+      "steps": {
+        "signup": {
+          "githubOAuth": "button:has-text('Login with GitHub')",
+          "emailSelector": "input[type='email']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://railway.app/account/tokens",
+          "createTokenButton": "button:has-text('Create')",
+          "nameInput": "input[name='name']",
+          "submitSelector": "button:has-text('Create')",
+          "copyTokenSelector": "button:has-text('Copy')"
+        }
+      },
+      "envMapping": {
+        "token": "RAILWAY_TOKEN"
+      }
+    },
+    "posthog": {
+      "name": "PostHog",
+      "signupUrl": "https://app.posthog.com/signup",
+      "keyLocation": "https://app.posthog.com/settings/project#api",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["api_key", "project_id"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "companySelector": "input[name='organization_name']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://app.posthog.com/settings/project",
+          "apiKeySelector": "[data-attr='api-key']",
+          "projectIdSelector": "[data-attr='project-id']"
+        }
+      },
+      "envMapping": {
+        "api_key": "POSTHOG_API_KEY",
+        "project_id": "POSTHOG_PROJECT_ID"
+      }
+    },
+    "sentry": {
+      "name": "Sentry",
+      "signupUrl": "https://sentry.io/signup/",
+      "keyLocation": "https://sentry.io/settings/account/api/auth-tokens/",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["dsn", "auth_token"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[name='email']",
+          "passwordSelector": "input[name='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "createProject": {
+          "platformSelect": "div[data-test-id='platform-javascript']",
+          "projectNameInput": "input[name='name']",
+          "submitSelector": "button:has-text('Create Project')"
+        },
+        "extractKey": {
+          "dsnSelector": "[data-test-id='dsn-string']",
+          "authTokenNav": "https://sentry.io/settings/account/api/auth-tokens/",
+          "createTokenButton": "button:has-text('Create New Token')",
+          "submitSelector": "button:has-text('Create Token')"
+        }
+      },
+      "envMapping": {
+        "dsn": "SENTRY_DSN",
+        "auth_token": "SENTRY_AUTH_TOKEN"
+      }
+    },
+    "customerio": {
+      "name": "Customer.io",
+      "signupUrl": "https://fly.customer.io/signup",
+      "keyLocation": "https://fly.customer.io/settings/api_credentials",
+      "billingRequired": false,
+      "emailVerification": true,
+      "sms2fa": false,
+      "freeApiKeys": true,
+      "keyTypes": ["site_id", "api_key", "tracking_api_key"],
+      "steps": {
+        "signup": {
+          "emailSelector": "input[type='email']",
+          "passwordSelector": "input[type='password']",
+          "submitSelector": "button[type='submit']"
+        },
+        "extractKey": {
+          "navigate": "https://fly.customer.io/settings/api_credentials",
+          "siteIdSelector": "[data-testid='site-id']",
+          "apiKeySelector": "[data-testid='api-key']",
+          "trackingKeySelector": "[data-testid='tracking-api-key']"
+        }
+      },
+      "envMapping": {
+        "site_id": "CUSTOMERIO_SITE_ID",
+        "api_key": "CUSTOMERIO_API_KEY",
+        "tracking_api_key": "CUSTOMERIO_TRACKING_KEY"
+      }
+    }
+  },
+  "commonPatterns": {
+    "billing": {
+      "stripeFrame": "iframe[name*='stripe']",
+      "cardNumber": "input[name='cardnumber'], input[name='card-number'], input[name='cardNumber']",
+      "expiry": "input[name='exp-date'], input[name='cardExpiry'], input[name='expiry']",
+      "cvc": "input[name='cvc'], input[name='cvv'], input[name='cardCvc']",
+      "submit": "button[type='submit'], button:has-text('Add'), button:has-text('Save')"
+    },
+    "verification": {
+      "codeInput": "input[type='tel'], input[name='code'], input[name='otp']",
+      "codeLength": 6,
+      "resendButton": "button:has-text('Resend'), a:has-text('Resend')"
+    },
+    "apiKey": {
+      "createButton": "button:has-text('Create'), button:has-text('Generate'), button:has-text('New')",
+      "copyButton": "button:has-text('Copy'), button[aria-label='Copy']",
+      "revealButton": "button:has-text('Reveal'), button:has-text('Show')"
+    }
+  },
+  "blockers": {
+    "captcha": {
+      "selectors": [
+        "iframe[src*='recaptcha']",
+        "iframe[src*='hcaptcha']",
+        "[data-testid='captcha']"
+      ],
+      "action": "escalate"
+    },
+    "rateLimit": {
+      "indicators": [
+        "text=Too many requests",
+        "text=Rate limit exceeded",
+        "text=Try again later"
+      ],
+      "action": "wait_60s"
+    },
+    "manualReview": {
+      "indicators": [
+        "text=Under review",
+        "text=Manual verification required",
+        "text=Contact support"
+      ],
+      "action": "skip"
+    }
+  }
+}

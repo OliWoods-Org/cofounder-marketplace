@@ -1,0 +1,23 @@
+{
+  "id": "ks-tracker",
+  "name": "ZeroContextTracker",
+  "version": "1.0.0",
+  "role": "Audit & Learning Observer",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["spawned_by_orchestrator"],
+  "mcp_servers": ["playwright", "filesystem"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 365
+  },
+  "temperature": 0.0,
+  "context": "NONE",
+  "tracking_config": {
+    "screenshot_every_action": true,
+    "log_urls": true,
+    "log_form_inputs": "masked",
+    "record_timing": true,
+    "detect_errors": true,
+    "output_format": "jsonl"
+  }
+}

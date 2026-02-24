@@ -1,0 +1,29 @@
+{
+  "id": "ks-collector",
+  "name": "KeyCollector",
+  "version": "1.0.0",
+  "role": "Single API Key Acquisition",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["spawned_by_orchestrator"],
+  "mcp_servers": ["playwright", "1password"],
+  "memory": {
+    "enabled": false,
+    "retention_days": 0
+  },
+  "context_limit_tokens": 8000,
+  "temperature": 0.2,
+  "browser_config": {
+    "headless": true,
+    "viewport": { "width": 1280, "height": 720 },
+    "timeout_ms": 300000,
+    "screenshot_on_error": true
+  },
+  "signup_steps": [
+    "navigate_to_provider",
+    "create_account",
+    "verify_email",
+    "setup_billing",
+    "extract_api_key",
+    "save_to_vault"
+  ]
+}

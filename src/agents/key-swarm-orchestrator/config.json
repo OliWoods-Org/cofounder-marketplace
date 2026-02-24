@@ -1,0 +1,25 @@
+{
+  "id": "ks-orchestrator",
+  "name": "SwarmOrchestrator",
+  "version": "1.0.0",
+  "role": "Swarm Command & Control",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["manual"],
+  "mcp_servers": ["1password", "playwright", "filesystem"],
+  "memory": {
+    "enabled": true,
+    "retention_days": 90
+  },
+  "swarm_config": {
+    "max_parallel_pods": 20,
+    "pod_timeout_ms": 300000,
+    "card_rotation_interval_ms": 3600000,
+    "escalation_timeout_ms": 120000
+  },
+  "supported_providers": [
+    "stripe", "twilio", "anthropic", "supabase", "resend",
+    "openai", "elevenlabs", "brave", "exa", "customerio",
+    "amadeus", "hotelbeds", "google-cloud", "posthog", "sentry",
+    "vercel", "railway", "apify", "mem0", "firecrawl"
+  ]
+}

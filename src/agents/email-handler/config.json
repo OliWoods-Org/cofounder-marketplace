@@ -1,0 +1,27 @@
+{
+  "id": "ks-email-handler",
+  "name": "EmailHandler",
+  "version": "1.0.0",
+  "role": "Verification & 2FA Router",
+  "model": "claude-sonnet-4-20250514",
+  "triggers": ["spawned_by_orchestrator", "email_received"],
+  "mcp_servers": ["gmail", "twilio", "1password"],
+  "memory": {
+    "enabled": false,
+    "retention_days": 0
+  },
+  "temperature": 0.1,
+  "email_config": {
+    "poll_interval_ms": 3000,
+    "max_wait_ms": 120000,
+    "inbox": "orchestrator@project.1pass.io"
+  },
+  "verification_patterns": [
+    "verification code",
+    "confirm your email",
+    "verify your account",
+    "one-time password",
+    "security code",
+    "activation link"
+  ]
+}

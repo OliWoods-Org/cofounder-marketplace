@@ -1,0 +1,98 @@
+name: Auto-Fix Lint & Dependencies
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      fix_mode:
+        description: 'Fix mode'
+        required: true
+        default: 'lint'
+        type: choice
+        options:
+          - lint
+          - deps
+          - all
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-fix-lint:
+    name: Auto-Fix Lint Errors
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule' || github.event.inputs.fix_mode != 'deps'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci || npm install
+      - name: Run ESLint auto-fix
+        run: npm run lint -- --fix || npx eslint . --fix || true
+      - name: Run Prettier
+        run: npx prettier --write "**/*.{ts,tsx,js,jsx,json}" || true
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Commit fixes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git commit -m "fix: auto-fix lint errors [skip ci]"
+      - name: Push changes
+        if: steps.changes.outputs.has_changes == 'true' && github.event_name != 'pull_request'
+        run: git push
+
+  auto-fix-deps:
+    name: Auto-Fix Dependencies
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event.inputs.fix_mode == 'deps' || github.event.inputs.fix_mode == 'all'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm ci || npm install
+      - name: Audit and fix vulnerabilities
+        run: npm audit fix || true
+      - name: Check for changes
+        id: changes
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          fi
+      - name: Create PR for dependency updates
+        if: steps.changes.outputs.has_changes == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          title: "fix: auto-fix dependency vulnerabilities"
+          body: "Automated dependency fixes"
+          branch: fix/auto-deps
+          delete-branch: true
+          labels: dependencies,security
